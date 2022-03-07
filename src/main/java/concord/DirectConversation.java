@@ -11,7 +11,7 @@ public class DirectConversation {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void sendMessage(Message msg, User a, User b) {
+	public void sendMessage(Message msg) {
 		//how to make it unique to users
 		messages.add(msg);
 	}

@@ -10,13 +10,12 @@ public class DirectConversationManager {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public ArrayList<DirectConversation> getPastConversations(User a){
-		int pos;
-		DirectConversation dc;
-		pos = dcm.indexOf(a);
-		dc = dcm.get(pos);
+	public ArrayList<DirectConversation> getPastConversations(User a){		
+		return dcm;
+	}
+	
+	public DirectConversation getPastConversation(ArrayList<User> users) {
 		
-		return null;
 	}
 
 }
