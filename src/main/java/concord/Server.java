@@ -4,15 +4,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Server {
-	HashMap<User, Role> users;
-	ArrayList<Channel> channels;
-	ArrayList<Message> messages;
-	ArrayList<Message> pins;
+	HashMap<User, Role> roles = new HashMap<User, Role>();
+	ArrayList<User> users = new ArrayList<User>();
+	ArrayList<Channel> channels = new ArrayList<Channel>();
+	ArrayList<Message> messages = new ArrayList<Message>();
+	ArrayList<Message> pins = new ArrayList<Message>();
 	String name;
 	RoleBuilder roleBuilder = new RoleBuilder();
 	
 	public Server() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	//for now everyone can change the name TODO change permissions
+	public void setName(String n) {
+		this.name = n;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public boolean invite(Role requester, User user) {
@@ -21,15 +31,6 @@ public class Server {
 		
 	}
 	
-	public boolean kick(Role requester, User user) {
-		if(requester.canRemoveMember()) {
-			users.remove(user);
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
 	
 	public boolean addChannel(Role requester, Channel channel) {
 		if(requester.canAddChannel()) {
@@ -41,8 +42,14 @@ public class Server {
 		}
 	}
 	
-	public void deleteChannel(Channel channel) {
-		channels.remove(channel);
+	public boolean deleteChannel(Role requester, Channel channel) {
+		if(requester.canAddChannel()) {
+			channels.remove(channel);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public void addPin(Message msg){
@@ -53,22 +60,24 @@ public class Server {
 		pins.remove(msg);
 	}
 	
-	public void addMember(User user) {
+	public boolean addMember(User user) {
 		//figure out the roles here use hash map
 		Role role;
 		try {
 			role = roleBuilder.createUserRole("member", user);
-			users.put(user, role);
+			roles.put(user, role);
+			return true;
 		} catch (Exception e) {
 			System.out.println("interesting...");
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	public boolean removeMember(Role requester, User kickedUser) {
 		//same here
 		if(requester.canRemoveMember()) {
-			users.remove(kickedUser);
+			roles.remove(kickedUser);
 			return true;
 		}
 		else {
@@ -85,7 +94,7 @@ public class Server {
 		try {
 			if (canAdmin || canMod || canDemote) {
 				role = roleBuilder.createUserRole(newRole, changedUser);
-				users.put(changedUser, role);
+				roles.put(changedUser, role);
 				return true;
 			}
 			else {

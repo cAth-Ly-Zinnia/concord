@@ -13,5 +13,9 @@ public class Channel {
 	public void changeName(String n) {
 		this.name = n;
 	}
+	
+	public String getChannelName() {
+		return name;
+	}
 
 }

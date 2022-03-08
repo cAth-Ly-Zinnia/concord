@@ -6,19 +6,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class MessageTest {
-
+	Message m;
 	@BeforeEach
 	void setUp() throws Exception {
+		m = new Message();
+		m.setMessage("hello");
 	}
 
 	@Test
 	void testMessage() {
-		fail("Not yet implemented");
+		assertEquals("hello", m.getMessage());
 	}
 
+	/*
 	@Test
 	void testNotifyUser() {
 		fail("Not yet implemented");
 	}
-
+	*/
 }

@@ -14,7 +14,14 @@ public class Message {
 	
 	public void notify(ArrayList<User> user) {
 		//subscribe look into observer
-		
+	}
+	
+	public void setMessage(String c) {
+		this.content = c;
+	}
+	
+	public String getMessage() {
+		return content;
 	}
 
 }

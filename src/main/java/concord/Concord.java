@@ -10,5 +10,17 @@ public class Concord {
 		this.s = new ServerManager();
 		this.u = new UserManager();
 	}
+	
+	public DirectConversationManager getDCM() {
+		return d;
+	}
+	
+	public ServerManager getSM() {
+		return s;
+	}
+	
+	public UserManager getUM() {
+		return u;
+	}
 
 }

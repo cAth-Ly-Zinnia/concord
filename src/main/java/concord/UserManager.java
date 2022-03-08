@@ -12,4 +12,6 @@ public class UserManager {
 	public ArrayList<User> getUsers(){
 		return u;
 	}
+	
+	//are we finding ind users?
 }

@@ -12,9 +12,9 @@ class UserTest {
 	User a, b, c;
 	@BeforeEach
 	void setUp() throws Exception {
-		a = new User("blimey", "Emily");
-		b = new User("chaiknees", "Hana");
-		c = new User("iamsofriendlyandnice", "Lorelei");
+		a = new User("blimey", "Emily", "123");
+		b = new User("chaiknees", "Hana", "456");
+		c = new User("iamsofriendlyandnice", "Lorelei", "789");
 	}
 
 	@Test
@@ -33,7 +33,7 @@ class UserTest {
 		b.setProfileData("bing chilling");
 		assertEquals("bing chilling", b.getProfileData());
 		
-		
+		assertEquals("123", a.password);
 		
 	}
 

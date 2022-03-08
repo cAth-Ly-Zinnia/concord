@@ -7,15 +7,20 @@ public class DirectConversationManager {
 	ArrayList<DirectConversation> dcm;
 
 	public DirectConversationManager() {
-		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public ArrayList<DirectConversation> getPastConversations(User a){		
-		return dcm;
+		ArrayList<DirectConversation> gpc = new ArrayList<DirectConversation>();
+		if (dcm.contains(a)){
+			for (int i = 0; i < dcm.size(); i++) {
+				gpc.add(dcm.get(i));
+			}
+		}
+		return gpc;
 	}
 	
-	public DirectConversation getPastConversation(ArrayList<User> users) {
-		
+	public ArrayList<DirectConversation> getDCM(){
+		return dcm;
 	}
-
 }

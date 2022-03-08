@@ -8,6 +8,7 @@ public class ServerManager {
 		// TODO Auto-generated constructor stub
 	}
 	
+	// TODO for OH
 	public ArrayList<Server> getUserServers(User a){
 		return null;
 	}
