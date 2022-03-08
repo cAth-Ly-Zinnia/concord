@@ -15,17 +15,30 @@ public class Server {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void invite(User admin, User user) {
+	public boolean invite(Role requester, User user) {
 		//TODO write all functions here as booleans to test out later!!!
+		return true;
 		
 	}
 	
-	public void kick(User admin, User user) {
-		
+	public boolean kick(Role requester, User user) {
+		if(requester.canRemoveMember()) {
+			users.remove(user);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
-	public void addChannel(User admin, Channel channel) {
-		channels.add(channel);
+	public boolean addChannel(Role requester, Channel channel) {
+		if(requester.canAddChannel()) {
+			channels.add(channel);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 	
 	public void deleteChannel(Channel channel) {
@@ -52,9 +65,9 @@ public class Server {
 		}
 	}
 	
-	public boolean removeMember(Role admin, User kickedUser) {
+	public boolean removeMember(Role requester, User kickedUser) {
 		//same here
-		if(admin.canRemoveMember()) {
+		if(requester.canRemoveMember()) {
 			users.remove(kickedUser);
 			return true;
 		}
@@ -64,8 +77,6 @@ public class Server {
 	}
 	
 	public boolean changeUser(Role requester, User changedUser, String newRole) {
-		//changing role
-		//TODO add if and else permission...
 		Role role;
 		boolean canAdmin = newRole.equals("admin") && requester.canAddAdmin();
 		boolean canMod = newRole.equals("mod") && requester.canAddModerator();

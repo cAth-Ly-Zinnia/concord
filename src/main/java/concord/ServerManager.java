@@ -12,4 +12,7 @@ public class ServerManager {
 		return null;
 	}
 
+	public ArrayList<Server> getServers(){
+		return s;
+	}
 }

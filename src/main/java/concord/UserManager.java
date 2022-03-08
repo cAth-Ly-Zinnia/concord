@@ -12,9 +12,4 @@ public class UserManager {
 	public ArrayList<User> getUsers(){
 		return u;
 	}
-	
-	public User getUser(int id) {
-		return null;
-	}
-
 }

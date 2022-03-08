@@ -1,11 +1,9 @@
 package concord;
 
-import java.util.ArrayList;
-
 public class Concord {
-	ArrayList<DirectConversation> d;
-	ArrayList<ServerManager> s;
-	ArrayList<UserManager> u;
+	DirectConversationManager d;
+	ServerManager s;
+	UserManager u;
 
 	public Concord() {
 		this.d = new DirectConversationManager();
