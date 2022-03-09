@@ -35,5 +35,11 @@ class UMTest {
 			create++;
 		}
 	}
+	
+	@Test
+	void testGetUser() {
+		User test = um.getUser(1);
+		assertEquals(a.getUserName(), test.getUserName());
+	}
 
 }

@@ -16,6 +16,15 @@ public class UserManager {
 		return u;
 	}
 	
+	public User getUser(int id) {
+		for(User user : u) {
+			if (user.getID() == id) {
+				return user;
+			}
+		}
+		return null;
+	}
+	
 	public User createUser(String un, String rn, String pw) {
 		User us = new User(un, rn, pw);
 		created = created + 1;
