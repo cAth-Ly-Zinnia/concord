@@ -5,15 +5,22 @@ import java.util.HashMap;
 
 public class Server {
 	HashMap<User, Role> roles = new HashMap<User, Role>();
-	ArrayList<User> users = new ArrayList<User>();
 	ArrayList<Channel> channels = new ArrayList<Channel>();
 	ArrayList<Message> messages = new ArrayList<Message>();
 	ArrayList<Message> pins = new ArrayList<Message>();
 	String name;
 	RoleBuilder roleBuilder = new RoleBuilder();
 	
-	public Server() {
+	public Server(String n, User u) {
 		// TODO Auto-generated constructor stub
+		try {
+			Role admin = this.roleBuilder.createUserRole("admin", u);
+			this.name = n;
+			roles.put(u, admin);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//for now everyone can change the name TODO change permissions

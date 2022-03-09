@@ -6,19 +6,25 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ChannelTest {
-
+	Channel c;
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp(){
+		c = new Channel();
+		c.changeName("general");
 	}
 
 	@Test
 	void testChannel() {
-		fail("Not yet implemented");
+		assertEquals("general", c.getChannelName());
 	}
 
 	@Test
-	void testChangeName() {
-		fail("Not yet implemented");
+	void sendMessage() {
+		Message m = new Message();
+		m.setMessage("hello channel");
+		c.sendMessage(m);
+		
+		assertEquals(true, c.getMessages().contains(m));
 	}
 
 }

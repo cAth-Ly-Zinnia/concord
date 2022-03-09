@@ -3,8 +3,8 @@ package concord;
 import java.util.ArrayList;
 
 public class Channel {
-	String name;
-	ArrayList<Message> messages;
+	private String name;
+	private ArrayList<Message> messages = new ArrayList<Message>();
 
 	public Channel() {
 		// TODO Auto-generated constructor stub
@@ -16,6 +16,14 @@ public class Channel {
 	
 	public String getChannelName() {
 		return name;
+	}
+	
+	public void sendMessage(Message m) {
+		messages.add(m);
+	}
+	
+	public ArrayList<Message> getMessages() {
+		return messages;
 	}
 
 }

@@ -34,16 +34,16 @@ class RoleBuilderTest {
 		try {
 			//TODO do more assertions for roles
 			r = roleBuilder.createUserRole("admin", a);
-			assertEquals(true, r.canAddAdmin());
-			assertEquals(true, r.canAddChannel());
-			assertEquals(true, r.canAddModerator());
-			assertEquals(true, r.canInviteUser());
-			assertEquals(true, r.canRemoveChannel());
-			assertEquals(true, r.canRemoveMember());
-			assertEquals(true, r.canRemoveModerator());
+			boolean isValid = r.checkStatus(r, true, true, true, true, true, true, true);
+			assertEquals(true, isValid);
 			
 			mod = roleBuilder.createUserRole("mod", b);
+			isValid =  mod.checkStatus(mod, false, true, false, true, false, true, true);
+			assertEquals(true, isValid);
+			
 			mem = roleBuilder.createUserRole("member", c);
+			isValid =  mem.checkStatus(mem, false, false, false, false, false, false, false);
+			assertEquals(true, isValid);
 			
 			
 		} catch (Exception e) {

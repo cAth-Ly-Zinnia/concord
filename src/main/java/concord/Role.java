@@ -2,7 +2,7 @@ package concord;
 
 public class Role{
 	
-	boolean addModerator, addChannel, addAdmin, removeMember, removeModerator, inviteUser, removeChannel;
+	private boolean addModerator, addChannel, addAdmin, removeMember, removeModerator, inviteUser, removeChannel;
 
 	public Role() {
 		this(false, false, false, false,
@@ -77,6 +77,32 @@ public class Role{
 
 	public void setRemoveChannel(boolean removeChannel) {
 		this.removeChannel = removeChannel;
+	}
+
+	public boolean checkStatus(Role u, boolean a, boolean b, boolean c, boolean d,
+			boolean e, boolean f, boolean g) {
+		if(u.canAddModerator() != a) {
+			return false;
+		}
+		if(u.canAddChannel() != b) {
+			return false;
+		}
+		if(u.canAddAdmin() != c) {
+			return false;
+		}
+		if(u.canRemoveMember() != d) {
+			return false;
+		}
+		if(u.canRemoveModerator() != e) {
+			return false;
+		}
+		if(u.canInviteUser() != f) {
+			return false;
+		}
+		if(u.canRemoveChannel() != g) {
+			return false;
+		}
+		return true;
 	}
 	
 }

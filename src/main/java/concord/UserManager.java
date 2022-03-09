@@ -3,15 +3,25 @@ package concord;
 import java.util.ArrayList;
 
 public class UserManager {
-	ArrayList<User> u;
+	private ArrayList<User> u = new ArrayList<User>();
+	private int created = 0;
+	
 	
 	public UserManager() {
 		// TODO Auto-generated constructor stub
+		
 	}
 	
 	public ArrayList<User> getUsers(){
 		return u;
 	}
 	
-	//are we finding ind users?
+	public User createUser(String un, String rn, String pw) {
+		User us = new User(un, rn, pw);
+		created = created + 1;
+		us.setID(created);
+		u.add(us);
+		
+		return us;
+	}
 }

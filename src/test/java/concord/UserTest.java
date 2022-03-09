@@ -33,7 +33,7 @@ class UserTest {
 		b.setProfileData("bing chilling");
 		assertEquals("bing chilling", b.getProfileData());
 		
-		assertEquals("123", a.password);
+		assertEquals("123", a.getPassword());
 		
 	}
 
@@ -44,15 +44,15 @@ class UserTest {
 		
 		a.addBlock(b);
 		test.add(b);
-		assertEquals(test, a.blocks);
+		assertEquals(test, a.getBlocks());
 		
 		a.addBlock(c);
 		test.add(c);
-		assertEquals(test, a.blocks);
+		assertEquals(test, a.getBlocks());
 		
 		a.removeBlock(b);
 		test.remove(b);
-		assertEquals(test, a.blocks);
+		assertEquals(test, a.getBlocks());
 	}
 
 

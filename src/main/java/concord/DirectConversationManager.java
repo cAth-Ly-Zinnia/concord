@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class DirectConversationManager {
 	
-	ArrayList<DirectConversation> dcm;
+	private ArrayList<DirectConversation> dcm = new ArrayList<DirectConversation>();
 
 	public DirectConversationManager() {
 		
@@ -12,9 +12,9 @@ public class DirectConversationManager {
 	
 	public ArrayList<DirectConversation> getPastConversations(User a){		
 		ArrayList<DirectConversation> gpc = new ArrayList<DirectConversation>();
-		if (dcm.contains(a)){
-			for (int i = 0; i < dcm.size(); i++) {
-				gpc.add(dcm.get(i));
+		for (DirectConversation d : dcm) {
+			if (d.getUsers().contains(a)) {
+				gpc.add(d);
 			}
 		}
 		return gpc;
@@ -22,5 +22,14 @@ public class DirectConversationManager {
 	
 	public ArrayList<DirectConversation> getDCM(){
 		return dcm;
+	}
+	
+	public DirectConversation createDC(ArrayList<User> users) {
+		DirectConversation dc = new DirectConversation();
+		for (User u : users) {
+			dc.addUser(u);
+		}
+		dcm.add(dc);
+		return dc;
 	}
 }

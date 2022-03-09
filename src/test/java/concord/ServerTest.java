@@ -16,11 +16,10 @@ class ServerTest {
 	Role admin, mod, mem;
 	@BeforeEach
 	void setUp() throws Exception {
-		s = new Server();
 		a = new User("joemama", "Joe", "j1");
+		s = new Server("Valorant", a);
 		temp = a;
 		admin = s.roleBuilder.createUserRole("admin", temp);
-		s.roles.put(a, admin);
 		
 		b = new User("angiedaddy", "Angie", "a1");
 		temp = b;
@@ -37,10 +36,9 @@ class ServerTest {
 
 	@Test
 	void testServer() {
-		s.setName("Valorant");
-		assertEquals("Valorant", s.getName());
-		
-		assertEquals(s.roles, hm);
+		boolean add = s.addMember(b);
+		assertEquals(true, add);
+		assertEquals(s.roles.size(), hm.size());
 	}
 
 	@Test
@@ -82,14 +80,16 @@ class ServerTest {
 	void testMember() {
 		//TODO need to somehow see the list
 		boolean member = s.addMember(c);
-		assertEquals(true, member);
+		assertEquals(s.roles.size(), 3);
 		
 		temp = c;
 		member = s.removeMember(mem, c);
 		assertEquals(false, member);
+		assertEquals(s.roles.size(), 3);
 		
 		member = s.removeMember(admin, c);
 		assertEquals(true, member);
+		assertEquals(s.roles.size(), 2);
 	}
 
 	@Test

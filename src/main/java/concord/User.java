@@ -3,16 +3,16 @@ package concord;
 import java.util.ArrayList;
 
 public class User {
-	String profileData;
-	String userName;
-	String realName;
-	String password;
+	private String profileData;
+	private String userName;
+	private String realName;
+	private String password;
 	
-	int id;
+	private int id;
 	
-	ArrayList<User> blocks = new ArrayList<User>();
+	private ArrayList<User> blocks = new ArrayList<User>();
 	
-	String urlPic;
+	private String urlPic;
 
 	public User(String un, String rn, String pw) {
 		// TODO Auto-generated constructor stub
@@ -35,10 +35,9 @@ public class User {
 		}
 	}
 
-	
-	/**
-	 * @param profileData the profileData to set
-	 */
+	public ArrayList<User> getBlocks() {
+		return blocks;
+	}
 	
 	public void setProfileData(String profileData) {
 		this.profileData = profileData;
@@ -86,6 +85,21 @@ public class User {
 		this.urlPic = urlPic;
 	}
 	
+	public void setID(int i) {
+		this.id = i;
+	}
+	
+	public int getID() {
+		return id;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	
 
 }

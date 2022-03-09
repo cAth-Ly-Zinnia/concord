@@ -7,13 +7,17 @@ import org.junit.jupiter.api.Test;
 
 class ConcordTest {
 
+	Concord c;
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp(){
+		c = new Concord();
 	}
 
 	@Test
 	void testConcord() {
-		fail("Not yet implemented");
+		assertInstanceOf(DirectConversationManager.class, c.d);
+		assertInstanceOf(ServerManager.class, c.s);
+		assertInstanceOf(UserManager.class, c.u);
 	}
 
 }
