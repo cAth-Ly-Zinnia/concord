@@ -37,7 +37,7 @@ class ConcordTest {
 		
 		DirectConversation dc = new DirectConversation();
 		dc.addUser(u);
-		//dc.addUser(u1);
+		dc.addUser(u1);
 		Message m = new Message();
 		m.setContent("hello");
 		m.setUser(u);
@@ -51,6 +51,12 @@ class ConcordTest {
 			e.printStackTrace();
 		}
 		
+		Server joe = c.getSm().getServer("joe");
+		Role admin = joe.getRole(u);
+		Channel gen = new Channel();
+		gen.setName("general");
+		joe.addChannel(admin, gen);
+		gen.sendMessage(m);
 		
 		c.serializeToXML();
 		Concord diskC = Concord.readXML();

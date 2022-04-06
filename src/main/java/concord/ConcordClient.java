@@ -37,57 +37,57 @@ public class ConcordClient {
 		return null;
 	}
 	
-	public void invite(User user, Server s, DirectConversation dc) {
+	public void invite(int id, User user, Server s) {
 		try {
-			csi.invite(user, s, dc);
+			csi.invite(id, user, s);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void accept() {
+	public void accept(User member, Server s) {
 		try {
-			csi.accept();
+			csi.accept(member, s);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void kick(User user, Server s) {
+	public void kick(int id, User user, Server s) {
 		try {
-			csi.kick(user, s);
+			csi.kick(id, user, s);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void changeServerName(Server s, String serverName) {
+	public void changeServerName(int id, Server s, String serverName) {
 		try {
-			csi.changeServerName(s, serverName);
+			csi.changeServerName(id, s, serverName);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void changeChannelName(Channel c, Server s, String channelName) {
+	public void changeChannelName(int id, Channel c, Server s, String channelName) {
 		try {
-			csi.changeChannelName(c, s, channelName);
+			csi.changeChannelName(id, c, s, channelName);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void addChannel(Server s, Channel channel) {
+	public void addChannel(int id, Server s, Channel channel) {
 		try {
-			csi.addChannel(s, channel);
+			csi.addChannel(id, s, channel);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void deleteChannel(Server s, Channel channel) {
+	public void deleteChannel(int id, Server s, Channel channel) {
 		try {
-			csi.deleteChannel(s, channel);
+			csi.deleteChannel(id, s, channel);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -109,57 +109,57 @@ public class ConcordClient {
 		}
 	}
 	
-	public void changeRole(User user, String newRole, Server s) {
+	public void changeRole(int id, User user, String newRole, Server s) {
 		try {
-			csi.changeRole(user, newRole, s);
+			csi.changeRole(id, user, newRole, s);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void addBlock(User user) {
+	public void addBlock(int id, User user) {
 		try {
-			csi.addBlock(user);
+			csi.addBlock(id, user);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void removeBlock(User user) {
+	public void removeBlock(int id, User user) {
 		try {
-			csi.removeBlock(user);
+			csi.removeBlock(id, user);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setProfileData(String s) {
+	public void setProfileData(int id, String s) {
 		try {
-			csi.setProfileData(s);
+			csi.setProfileData(id, s);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setUsername(String newUsername) {
+	public void setUsername(int id, String newUsername) {
 		try {
-			csi.setUsername(newUsername);
+			csi.setUsername(id, newUsername);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setProfilePic(String newUrlPic) {
+	public void setProfilePic(int id, String newUrlPic) {
 		try {
-			csi.setProfileData(newUrlPic);
+			csi.setProfileData(id, newUrlPic);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void sendPrivateMessage(Message m, User user, DirectConversation dc) {
+	public void sendPrivateMessage(Message m, DirectConversation dc) {
 		try {
-			csi.sendPrivateMessage(m, user, dc);
+			csi.sendPrivateMessage(m, dc);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

@@ -104,6 +104,18 @@ public class Role{
 		}
 		return true;
 	}
+	
+	public boolean equals(Role that) {
+		boolean a = that.isAddModerator();
+		boolean b = that.isAddChannel();
+		boolean c = that.isAddAdmin();
+		boolean d = that.isRemoveMember();
+		boolean e = that.isRemoveModerator();
+		boolean f = that.isInviteUser();
+		boolean g = that.isRemoveChannel();
+		
+		return this.checkStatus(that, a, b, c, d, e, f, g);
+	}
 
 	
 }

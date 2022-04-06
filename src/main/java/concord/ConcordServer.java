@@ -19,7 +19,12 @@ implements ConcordServerInterface{
 
 	protected ConcordServer() throws RemoteException{
 		super();
-		c = new Concord();
+		if(c != null) {
+			c = Concord.readXML();
+		}
+		else {
+			c = new Concord();
+		}
 	}
 	
 	public static void main(String[] args) {
@@ -59,95 +64,98 @@ implements ConcordServerInterface{
 	}
 
 	@Override
-	public void invite(User user, Server s, DirectConversation dc) throws RemoteException {
+	public void invite(int id, User in, Server s) throws RemoteException {
 		// notify user of the server invite
+		u1 = c.getUm().getUser(id);
 		Message m = new Message();
-		m.setMessage("Invite sent for:" + s);
-		
-		
+		m.setUser(u1);
+		m.setMessage("Invite sent for:" + s);	
 	}
 
 	@Override
-	public void accept() throws RemoteException {
+	public void accept(User member, Server s) throws RemoteException {
 		// TODO Auto-generated method stub
-		
-		
+		s.addMember(member);
 	}
 
 	@Override
-	public void kick(User user, Server s) throws RemoteException {
+	public void kick(int id, User user, Server s) throws RemoteException {
 		// TODO Auto-generated method stub
 		Role r = s.getRole(u1);
 		s.removeMember(r, user);
 	}
 
 	@Override
-	public void changeServerName(Server s, String serverName) throws RemoteException {
+	public void changeServerName(int id, Server s, String serverName) throws RemoteException {
 		s.setName(serverName);
 	}
 
 	@Override
-	public void changeChannelName(Channel c, Server s, String channelName) throws RemoteException {
-		// TODO Auto-generated method stub
-		// need to make getters and setters
-		// prob a better way
-		Channel channel = s.getChannel(c.getName());
+	public void changeChannelName(int id, Channel chan, Server s, String channelName) throws RemoteException {
+		u1 = c.getUm().getUser(id);
+		Channel channel = s.getChannel(chan.getName());
 		channel.setName(channelName);
 	}
 
 	@Override
-	public void addChannel(Server s, Channel channel) throws RemoteException {
+	public void addChannel(int id, Server s, Channel channel) throws RemoteException {
+		u1 = c.getUm().getUser(id);
 		Role r = s.getRole(u1);
 		s.addChannel(r, channel);
 	}
 
 	@Override
-	public void deleteChannel(Server s, Channel channel) throws RemoteException {
+	public void deleteChannel(int id, Server s, Channel channel) throws RemoteException {
+		u1 = c.getUm().getUser(id);
 		Role r = s.getRole(u1);
 		s.deleteChannel(r, channel);
 	}
 
 	@Override
-	public void changeRole(User user, String newRole, Server s) throws RemoteException {
+	public void changeRole(int id, User user, String newRole, Server s) throws RemoteException {
+		u1 = c.getUm().getUser(id);
 		Role r = s.getRole(u1);
 		s.changeUser(r, user, newRole);	
 	}
 
 	@Override
-	public void addBlock(User user) throws RemoteException {
-		// TODO Auto-generated method stub
+	public void addBlock(int id, User user) throws RemoteException {
+		u1 = c.getUm().getUser(id);
 		u1.addBlock(user);
-		
 	}
 
 	@Override
-	public void removeBlock(User user) throws RemoteException {
+	public void removeBlock(int id, User user) throws RemoteException {
 		// TODO Auto-generated method stub
+		u1 = c.getUm().getUser(id);
 		u1.removeBlock(user);
 		
 	}
 
 	@Override
-	public void setProfileData(String d) throws RemoteException {
+	public void setProfileData(int id, String profD) throws RemoteException {
 		// TODO Auto-generated method stub
-		u1.setProfileData(d);
+		u1 = c.getUm().getUser(id);
+		u1.setProfileData(profD);
 		
 	}
 
 	@Override
-	public void setUsername(String newUsername) throws RemoteException {
+	public void setUsername(int id, String newUsername) throws RemoteException {
 		// TODO Auto-generated method stub
+		u1 = c.getUm().getUser(id);
 		u1.setUserName(newUsername);
 	}
 
 	@Override
-	public void setProfilePic(String newPicURL) throws RemoteException {
+	public void setProfilePic(int id, String newPicURL) throws RemoteException {
 		// TODO Auto-generated method stub
+		u1 = c.getUm().getUser(id);
 		u1.setUrlPic(newPicURL);
 	}
 
 	@Override
-	public void sendPrivateMessage(Message m, User user, DirectConversation dc) throws RemoteException {
+	public void sendPrivateMessage(Message m, DirectConversation dc) throws RemoteException {
 		// TODO Auto-generated method stub
 		dc.sendMessage(m);
 		//dc.notify();

@@ -27,6 +27,10 @@ public class Server {
 		new Server(name, new User());
 	}
 	
+	public User[] hashToArray() {
+		User[] u = {};
+		return this.roles.keySet().toArray(u);
+	}
 	
 	public boolean contains(Message pin) {
 		for(Message p : pins) {
@@ -55,6 +59,17 @@ public class Server {
 		
 		for(Channel c: channels) {
 			if(!that.contains(c)) {
+				return false;
+			}
+		}
+		
+		User[] u = hashToArray();
+		User[] u1 = that.hashToArray();
+		for(int i = 0; i < u.length; i++) {
+			if(!u[i].equals(u1[i])){
+				return false;
+			}
+			if(!roles.get(u[i]).equals(that.getRoles().get(u1[i]))) {
 				return false;
 			}
 		}

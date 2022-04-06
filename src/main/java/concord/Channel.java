@@ -33,5 +33,27 @@ public class Channel {
 	public void setMessages(ArrayList<Message> messages) {
 		this.messages = messages;
 	}
+	
+	public boolean equals(Channel that) {
+		for(Message m: messages) {
+			if(!that.contains(m)) {
+				return false;
+			}
+		}
+		
+		if(!name.equals(that.getName())) {
+			return false;
+		}
+		return true;
+	}
+	
+	public boolean contains(Message that) {
+		for(Message m: messages) {
+			if(m.equals(that)) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 }
