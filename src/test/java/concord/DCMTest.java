@@ -16,9 +16,21 @@ class DCMTest {
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		a = new User("blimey", "Emily", "123");
-		b = new User("chaiknees", "Hana", "456");
-		c = new User("iamsofriendlyandnice", "Lorelei", "789");
+		a = new User();
+		a.setUserName("blimey");
+		a.setRealName("Emily");
+		a.setPassword("123");
+		
+		b = new User();
+		b.setUserName("chaiknees");
+		b.setRealName("Hana");
+		b.setPassword("456");
+		
+		c = new User();
+		c.setUserName("iamsofriendlyandnice");
+		c.setRealName("Lorelei");
+		c.setPassword("789");
+		
 		test.add(a);
 		test.add(b);
 		test.add(c);
@@ -33,7 +45,7 @@ class DCMTest {
 
 	@Test
 	void testDirectConversationManager() {
-		assertEquals(2, dcm.getDCM().size());
+		assertEquals(2, dcm.getDcs().size());
 	}
 
 	@Test

@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Server {
-	HashMap<User, Role> roles = new HashMap<User, Role>();
-	ArrayList<Channel> channels = new ArrayList<Channel>();
-	ArrayList<Message> messages = new ArrayList<Message>();
-	ArrayList<Message> pins = new ArrayList<Message>();
-	String name;
-	RoleBuilder roleBuilder = new RoleBuilder();
+	private HashMap<User, Role> roles = new HashMap<User, Role>();
+	private ArrayList<Channel> channels = new ArrayList<Channel>();
+	private ArrayList<Message> pins = new ArrayList<Message>();
+	private String name;
+	private RoleBuilder roleBuilder = new RoleBuilder();
 	
 	public Server(String n, User u) {
 		// TODO Auto-generated constructor stub
@@ -23,7 +22,68 @@ public class Server {
 		}
 	}
 	
+	public Server()
+	{
+		new Server(name, new User());
+	}
+	
+	
+	public boolean contains(Message pin) {
+		for(Message p : pins) {
+			if(p.equals(pin)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean contains(Channel that) {
+		for(Channel c: channels) {
+			if(c.equals(that)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean equals(Server that) {
+		for(Message pin: pins) {
+			if(!that.contains(pin)) {
+				return false;
+			}
+		}
+		
+		for(Channel c: channels) {
+			if(!that.contains(c)) {
+				return false;
+			}
+		}
+		
+		if(!name.equals(that.getName())) {
+			return false;
+		}
+		return true;
+	}
+	
+	public Role getRole(User u) {
+		return roles.get(u);
+	}
+	
+	public Channel getChannel(String channel) {
+		for (Channel c : channels) {
+			if (c.getName() == channel) {
+				return c;
+			}
+		}
+		return null;
+	}
+	
+	public ArrayList<Message> getPin(){
+		return pins;
+	}
+	
 	//for now everyone can change the name TODO change permissions
+
 	public void setName(String n) {
 		this.name = n;
 	}
@@ -40,7 +100,7 @@ public class Server {
 	
 	
 	public boolean addChannel(Role requester, Channel channel) {
-		if(requester.canAddChannel()) {
+		if(requester.isAddChannel()) {
 			channels.add(channel);
 			return true;
 		}
@@ -50,7 +110,7 @@ public class Server {
 	}
 	
 	public boolean deleteChannel(Role requester, Channel channel) {
-		if(requester.canAddChannel()) {
+		if(requester.isAddChannel()) {
 			channels.remove(channel);
 			return true;
 		}
@@ -83,7 +143,7 @@ public class Server {
 	
 	public boolean removeMember(Role requester, User kickedUser) {
 		//same here
-		if(requester.canRemoveMember()) {
+		if(requester.isRemoveMember()) {
 			roles.remove(kickedUser);
 			return true;
 		}
@@ -94,10 +154,10 @@ public class Server {
 	
 	public boolean changeUser(Role requester, User changedUser, String newRole) {
 		Role role;
-		boolean canAdmin = newRole.equals("admin") && requester.canAddAdmin();
-		boolean canMod = newRole.equals("mod") && requester.canAddModerator();
+		boolean canAdmin = newRole.equals("admin") && requester.isAddAdmin();
+		boolean canMod = newRole.equals("mod") && requester.isAddModerator();
 		//for admin to change admin/mod to member feelsbad...
-		boolean canDemote = newRole.equals("member") && requester.canAddAdmin();
+		boolean canDemote = newRole.equals("member") && requester.isAddAdmin();
 		try {
 			if (canAdmin || canMod || canDemote) {
 				role = roleBuilder.createUserRole(newRole, changedUser);
@@ -113,6 +173,62 @@ public class Server {
 		}
 		//something horrible happened if it reaches here
 		return false;
+	}
+
+	/**
+	 * @return the roles
+	 */
+	public HashMap<User, Role> getRoles() {
+		return roles;
+	}
+
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(HashMap<User, Role> roles) {
+		this.roles = roles;
+	}
+
+	/**
+	 * @return the channels
+	 */
+	public ArrayList<Channel> getChannels() {
+		return channels;
+	}
+
+	/**
+	 * @param channels the channels to set
+	 */
+	public void setChannels(ArrayList<Channel> channels) {
+		this.channels = channels;
+	}
+
+	/**
+	 * @return the pins
+	 */
+	public ArrayList<Message> getPins() {
+		return pins;
+	}
+
+	/**
+	 * @param pins the pins to set
+	 */
+	public void setPins(ArrayList<Message> pins) {
+		this.pins = pins;
+	}
+
+	/**
+	 * @return the roleBuilder
+	 */
+	public RoleBuilder getRoleBuilder() {
+		return roleBuilder;
+	}
+
+	/**
+	 * @param roleBuilder the roleBuilder to set
+	 */
+	public void setRoleBuilder(RoleBuilder roleBuilder) {
+		this.roleBuilder = roleBuilder;
 	}
 
 }

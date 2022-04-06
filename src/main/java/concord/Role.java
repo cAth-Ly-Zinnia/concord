@@ -23,7 +23,7 @@ public class Role{
 	}
 
 
-	public boolean canAddModerator() {
+	public boolean isAddModerator() {
 		return addModerator;
 	}
 
@@ -31,7 +31,7 @@ public class Role{
 		this.addModerator = addModerator;
 	}
 
-	public boolean canAddChannel() {
+	public boolean isAddChannel() {
 		return addChannel;
 	}
 
@@ -39,7 +39,7 @@ public class Role{
 		this.addChannel = addChannel;
 	}
 
-	public boolean canAddAdmin() {
+	public boolean isAddAdmin() {
 		return addAdmin;
 	}
 
@@ -47,7 +47,7 @@ public class Role{
 		this.addAdmin = addAdmin;
 	}
 
-	public boolean canRemoveMember() {
+	public boolean isRemoveMember() {
 		return removeMember;
 	}
 
@@ -55,7 +55,7 @@ public class Role{
 		this.removeMember = removeMember;
 	}
 
-	public boolean canRemoveModerator() {
+	public boolean isRemoveModerator() {
 		return removeModerator;
 	}
 
@@ -63,7 +63,7 @@ public class Role{
 		this.removeModerator = removeModerator;
 	}
 
-	public boolean canInviteUser() {
+	public boolean isInviteUser() {
 		return inviteUser;
 	}
 
@@ -71,7 +71,7 @@ public class Role{
 		this.inviteUser = inviteUser;
 	}
 
-	public boolean canRemoveChannel() {
+	public boolean isRemoveChannel() {
 		return removeChannel;
 	}
 
@@ -81,28 +81,29 @@ public class Role{
 
 	public boolean checkStatus(Role u, boolean a, boolean b, boolean c, boolean d,
 			boolean e, boolean f, boolean g) {
-		if(u.canAddModerator() != a) {
+		if(u.isAddModerator() != a) {
 			return false;
 		}
-		if(u.canAddChannel() != b) {
+		if(u.isAddChannel() != b) {
 			return false;
 		}
-		if(u.canAddAdmin() != c) {
+		if(u.isAddAdmin() != c) {
 			return false;
 		}
-		if(u.canRemoveMember() != d) {
+		if(u.isRemoveMember() != d) {
 			return false;
 		}
-		if(u.canRemoveModerator() != e) {
+		if(u.isRemoveModerator() != e) {
 			return false;
 		}
-		if(u.canInviteUser() != f) {
+		if(u.isInviteUser() != f) {
 			return false;
 		}
-		if(u.canRemoveChannel() != g) {
+		if(u.isRemoveChannel() != g) {
 			return false;
 		}
 		return true;
 	}
+
 	
 }

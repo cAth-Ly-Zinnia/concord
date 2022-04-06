@@ -10,12 +10,12 @@ class ChannelTest {
 	@BeforeEach
 	void setUp(){
 		c = new Channel();
-		c.changeName("general");
+		c.setName("general");
 	}
 
 	@Test
 	void testChannel() {
-		assertEquals("general", c.getChannelName());
+		assertEquals("general", c.getName());
 	}
 
 	@Test

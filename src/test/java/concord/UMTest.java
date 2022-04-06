@@ -12,9 +12,20 @@ class UMTest {
 	UserManager um = new UserManager();
 	@BeforeEach
 	void setUp() {
-		a = new User("blimey", "Emily", "123");
-		b = new User("chaiknees", "Hana", "456");
-		c = new User("iamsofriendlyandnice", "Lorelei", "789");
+		a = new User();
+		a.setUserName("blimey");
+		a.setRealName("Emily");
+		a.setPassword("123");
+		
+		b = new User();
+		b.setUserName("chaiknees");
+		b.setRealName("Hana");
+		b.setPassword("456");
+		
+		c = new User();
+		c.setUserName("iamsofriendlyandnice");
+		c.setRealName("Lorelei");
+		c.setPassword("789");
 		
 		um.createUser("blimey", "Emily", "123");
 		um.createUser("chaiknees", "Hana", "456");
@@ -31,7 +42,7 @@ class UMTest {
 		ArrayList<User> test = um.getUsers();
 		int create = 1;
 		for(User u : test) {
-			assertEquals(create, u.getID());
+			assertEquals(create, u.getId());
 			create++;
 		}
 	}

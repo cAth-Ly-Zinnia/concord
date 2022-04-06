@@ -3,34 +3,77 @@ package concord;
 import java.util.ArrayList;
 
 public class UserManager {
-	private ArrayList<User> u = new ArrayList<User>();
-	private int created = 0;
+	private ArrayList<User> users;
+	private int id = 0;
 	
 	
 	public UserManager() {
 		// TODO Auto-generated constructor stub
+		this.users = new ArrayList<User>();
 		
 	}
 	
-	public ArrayList<User> getUsers(){
-		return u;
-	}
 	
 	public User getUser(int id) {
-		for(User user : u) {
-			if (user.getID() == id) {
+		for(User user : users) {
+			if (user.getId() == id) {
 				return user;
 			}
 		}
 		return null;
 	}
 	
-	public User createUser(String un, String rn, String pw) {
-		User us = new User(un, rn, pw);
-		created = created + 1;
-		us.setID(created);
-		u.add(us);
+	public void createUser(String un, String rn, String pw) {
+		User us = new User();
 		
-		return us;
+		us.setUserName(un);
+		us.setRealName(rn);
+		us.setPassword(pw);
+		
+		id = id + 1;
+		us.setId(id);
+		users.add(us);
 	}
+
+
+	/**
+	 * @return the users
+	 */
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+
+
+	/**
+	 * @param users the users to set
+	 */
+	public void setUsers(ArrayList<User> users) {
+		this.users = users;
+	}
+
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public boolean contains(User u) {
+		for (User one: users) {
+			if(one.equals(u)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

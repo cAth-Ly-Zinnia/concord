@@ -1,6 +1,6 @@
 package concord;
 
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class DirectConversation {
@@ -17,18 +17,11 @@ public class DirectConversation {
 		messages.add(msg);
 	}
 	
-	public LocalDateTime getLastTimestamp(){
-		LocalDateTime best = LocalDateTime.of(2000, 1, 1, 0, 0);
-		//not able to grab the last timestamps
-		/*for (Message m : messages) {
-			m.setTS();
-			if (m.getTS().isAfter(best)) {
-				best = m.getTS();
-			}
-		}*/
-		//int last = this.messages.size();
-		//return this.messages.get(last).getTS();
-		return best;
+	public Message getLastMessage(){
+
+		int last = this.messages.size();
+		return this.messages.get(last - 1);
+		//return best;
 	}
 	
 	public void addUser(User a) {
@@ -39,11 +32,64 @@ public class DirectConversation {
 		users.remove(a);
 	}
 
+	/**
+	 * @return the users
+	 */
 	public ArrayList<User> getUsers() {
 		return users;
 	}
 
+	/**
+	 * @param users the users to set
+	 */
+	public void setUsers(ArrayList<User> users) {
+		this.users = users;
+	}
+
+	/**
+	 * @return the messages
+	 */
 	public ArrayList<Message> getMessages() {
 		return messages;
+	}
+
+	/**
+	 * @param messages the messages to set
+	 */
+	public void setMessages(ArrayList<Message> messages) {
+		this.messages = messages;
+	}
+	
+	public boolean contains(User u) {
+		for(User one: users) {
+			if(one.equals(u)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean contains(Message m) {
+		for(Message one: messages) {
+			if(one.equals(m)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	public boolean equals(DirectConversation that) {
+		for(User one: users) {
+			if(!that.contains(one)) {
+				return false;
+			}
+		}
+		for(Message m: messages) {
+			if(!that.contains(m)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

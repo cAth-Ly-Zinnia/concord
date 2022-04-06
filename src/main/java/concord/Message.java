@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Message {
-	private User u;
+	private User user;
 	private String content;
 	private LocalDateTime timeStamp;
 	
@@ -13,18 +13,25 @@ public class Message {
 		this.timeStamp = LocalDateTime.now();
 	}
 	
+	public boolean equals(Message that) {
+		if(content.equals(that.getContent())) {
+			return true;
+		}
+		return false;
+	}
+	
 	public void notify(ArrayList<User> user) {
-		//subscribe look into observer
+		System.out.print("Message is sent...");
 	}
 	
-	public void setTS() {
-		this.timeStamp = LocalDateTime.now();
+	public void setTimeStamp(LocalDateTime timeStamp) {
+		this.timeStamp = timeStamp;
 	}
 	
-	public LocalDateTime getTS() {
+	public LocalDateTime getTimeStamp() {
 		return timeStamp;
 	}
-	
+
 	public void setMessage(String c) {
 		this.content = c;
 	}
@@ -34,6 +41,29 @@ public class Message {
 	}
 
 	public User getUser() {
-		return u;
+		return user;
 	}
+
+	/**
+	 * @param u the u to set
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	/**
+	 * @return the content
+	 */
+	public String getContent() {
+		return content;
+	}
+
+	/**
+	 * @param content the content to set
+	 */
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	
 }

@@ -16,29 +16,46 @@ class ServerTest {
 	Role admin, mod, mem;
 	@BeforeEach
 	void setUp() throws Exception {
-		a = new User("joemama", "Joe", "j1");
+		a = new User();
+		a.setUserName("joemama");
+		a.setRealName("Joe");
+		a.setPassword("j1");
+		
 		s = new Server("Valorant", a);
 		temp = a;
-		admin = s.roleBuilder.createUserRole("admin", temp);
+		admin = s.getRoleBuilder().createUserRole("admin", temp);
 		
-		b = new User("angiedaddy", "Angie", "a1");
+		b = new User();
+		b.setUserName("angiedaddy");
+		b.setRealName("Angie");
+		b.setPassword("a1");
 		temp = b;
 		
-		mem = s.roleBuilder.createUserRole("member", temp);
-		s.roles.put(b, mem);
+		mem = s.getRoleBuilder().createUserRole("member", temp);
+		s.getRoles().put(b, mem);
 		
-		c = new User("BBB", "Bradshaw", "b1");
+		c = new User();
+		c.setUserName("BBB");
+		c.setRealName("Bradshaw");
+		c.setPassword("b1");
+		temp = c;
 		
 		hm = new HashMap<User,Role>();
 		hm.put(a, admin);
 		hm.put(b, mem);
+	}
+	
+	@Test
+	void testName() {
+		s.setName("val");
+		assertEquals("val", s.getName());
 	}
 
 	@Test
 	void testServer() {
 		boolean add = s.addMember(b);
 		assertEquals(true, add);
-		assertEquals(s.roles.size(), hm.size());
+		assertEquals(s.getRoles().size(), hm.size());
 	}
 
 	@Test
@@ -46,16 +63,16 @@ class ServerTest {
 		//add and remove
 		ArrayList<Channel> channels = new ArrayList<Channel>();
 		Channel general = new Channel();
-		general.changeName("general");
-		boolean createChannel = s.addChannel(s.roles.get(a), general);
+		general.setName("general");
+		boolean createChannel = s.addChannel(s.getRoles().get(a), general);
 		
 		channels.add(general);
-		assertEquals(channels, s.channels);
+		assertEquals(channels, s.getChannels());
 		assertEquals(createChannel, true);
 	
 		Channel new1 = new Channel();
-		new1.changeName("new");
-		createChannel = s.addChannel(s.roles.get(b), new1);
+		new1.setName("new");
+		createChannel = s.addChannel(s.getRoles().get(b), new1);
 		assertEquals(createChannel, false);
 	}
 	
@@ -69,27 +86,27 @@ class ServerTest {
 		
 		s.addPin(m);
 		pins.add(m);
-		assertEquals(pins, s.pins);
+		assertEquals(pins, s.getPins());
 		
 		s.removePin(m);
 		pins.remove(m);
-		assertEquals(pins, s.pins);
+		assertEquals(pins, s.getPins());
 	}
 
 	@Test
 	void testMember() {
 		//TODO need to somehow see the list
 		boolean member = s.addMember(c);
-		assertEquals(s.roles.size(), 3);
+		assertEquals(s.getRoles().size(), 3);
 		
 		temp = c;
 		member = s.removeMember(mem, c);
 		assertEquals(false, member);
-		assertEquals(s.roles.size(), 3);
+		assertEquals(s.getRoles().size(), 3);
 		
 		member = s.removeMember(admin, c);
 		assertEquals(true, member);
-		assertEquals(s.roles.size(), 2);
+		assertEquals(s.getRoles().size(), 2);
 	}
 
 	@Test
@@ -101,7 +118,7 @@ class ServerTest {
 		//Role brole = s.roles.get(b);
 		//assertEquals(brole, null);
 		temp = b;
-		mod = s.roleBuilder.createUserRole("mod", temp);
+		mod = s.getRoleBuilder().createUserRole("mod", temp);
 		
 		change = s.changeUser(mod, a, "member");
 		assertEquals(false, change);

@@ -2,7 +2,7 @@ package concord;
 
 import java.util.ArrayList;
 
-public class User {
+public class User{
 	private String profileData;
 	private String userName;
 	private String realName;
@@ -14,12 +14,9 @@ public class User {
 	
 	private String urlPic;
 
-	public User(String un, String rn, String pw) {
+	public User() {
 		// TODO Auto-generated constructor stub
 		//is there a better way defining users without having to have arraylist as a parameter
-		this.userName = un;
-		this.realName = rn;
-		this.password = pw;
 	}
 	
 	//addBlock
@@ -35,10 +32,16 @@ public class User {
 		}
 	}
 
-	public ArrayList<User> getBlocks() {
-		return blocks;
+	/**
+	 * @return the profileData
+	 */
+	public String getProfileData() {
+		return profileData;
 	}
-	
+
+	/**
+	 * @param profileData the profileData to set
+	 */
 	public void setProfileData(String profileData) {
 		this.profileData = profileData;
 	}
@@ -49,7 +52,7 @@ public class User {
 	public String getUserName() {
 		return userName;
 	}
-	
+
 	/**
 	 * @param userName the userName to set
 	 */
@@ -58,17 +61,59 @@ public class User {
 	}
 
 	/**
-	 * @return the profileData
-	 */
-	public String getProfileData() {
-		return profileData;
-	}
-
-	/**
 	 * @return the realName
 	 */
 	public String getRealName() {
 		return realName;
+	}
+
+	/**
+	 * @param realName the realName to set
+	 */
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	/**
+	 * @return the password
+	 */
+	public String getPassword() {
+		return password;
+	}
+
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the blocks
+	 */
+	public ArrayList<User> getBlocks() {
+		return blocks;
+	}
+
+	/**
+	 * @param blocks the blocks to set
+	 */
+	public void setBlocks(ArrayList<User> blocks) {
+		this.blocks = blocks;
 	}
 
 	/**
@@ -85,21 +130,10 @@ public class User {
 		this.urlPic = urlPic;
 	}
 	
-	public void setID(int i) {
-		this.id = i;
+	public boolean equals(User u) {
+		if(id == u.getId()) {
+			return true;
+		}
+		return false;
 	}
-	
-	public int getID() {
-		return id;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-
 }

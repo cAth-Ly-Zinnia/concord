@@ -10,11 +10,11 @@ public class Channel {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void changeName(String n) {
+	public void setName(String n) {
 		this.name = n;
 	}
 	
-	public String getChannelName() {
+	public String getName() {
 		return name;
 	}
 	
@@ -24,6 +24,14 @@ public class Channel {
 	
 	public ArrayList<Message> getMessages() {
 		return messages;
+	}
+
+
+	/**
+	 * @param messages the messages to set
+	 */
+	public void setMessages(ArrayList<Message> messages) {
+		this.messages = messages;
 	}
 
 }
