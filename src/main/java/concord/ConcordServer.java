@@ -17,14 +17,9 @@ implements ConcordServerInterface{
 	
 	private static final long serialVersionUID = -2818842844782357528L;
 
-	protected ConcordServer() throws RemoteException{
+	public ConcordServer() throws RemoteException {
 		super();
-		if(c != null) {
-			c = Concord.readXML();
-		}
-		else {
-			c = new Concord();
-		}
+		c = Concord.readXML();
 	}
 	
 	public static void main(String[] args) {
@@ -37,23 +32,43 @@ implements ConcordServerInterface{
 		}
 	}
 	
+	private ArrayList<ConcordClientInterface> clients = new ArrayList<ConcordClientInterface>();
+	
+	@Override
+	public void addObserver(ConcordClientInterface o) throws RemoteException {
+		clients.add(o);
+	}
+
+	@Override
+	public void removeObserver(ConcordClientInterface o) throws RemoteException {
+		clients.remove(o);
+	}
+	
+	public void notifyClients() throws RemoteException {
+		for (ConcordClientInterface c : clients) {
+			c.notifyClient();
+		}
+	}
+	
+	public void makeChange() throws RemoteException {
+		notifyClients();
+	}
+	
 	public Concord getConcord() {
 		return c;
 	}
 	
-	public boolean verify(String username, String pw) throws RemoteException {
-		ArrayList <User> u = c.getUm().getUsers();
-		for (User user : u) {
-			if (user.getUserName() == username) {
-				if (user.getPassword() == pw) {
-					u1 = user;
-					return true;
-				}
-			}
-		}
-		return false;
+	public User verify(String username, String pw) throws RemoteException {
+		u1 = c.getUm().verify(username, pw);
+		return u1;
 	}
 	
+
+	@Override
+	public void createUser(String username, String realname, String pw) throws RemoteException {
+		c.getUm().createUser(username, realname, pw);
+		
+	}
 	
 	public User findUserById(int id) throws RemoteException {
 		return c.getUm().getUser(id);
@@ -81,6 +96,7 @@ implements ConcordServerInterface{
 	@Override
 	public void kick(int id, User user, Server s) throws RemoteException {
 		// TODO Auto-generated method stub
+		u1 = c.getUm().getUser(id);
 		Role r = s.getRole(u1);
 		s.removeMember(r, user);
 	}
@@ -157,6 +173,7 @@ implements ConcordServerInterface{
 	@Override
 	public void sendPrivateMessage(Message m, DirectConversation dc) throws RemoteException {
 		// TODO Auto-generated method stub
+		System.out.println(dc);
 		dc.sendMessage(m);
 		//dc.notify();
 		
@@ -178,7 +195,17 @@ implements ConcordServerInterface{
 	public void unPin(Server s, Message message) throws RemoteException {
 		s.removePin(message);
 	}
-
+	
+	@Override
+	public ArrayList<DirectConversation> getDcById(int uid) throws RemoteException {
+		User a = this.findUserById(uid);
+		return c.getDcm().getPastConversations(a);
+	}
+	
+	public ArrayList<Server> getServerByUserId (int uid) throws RemoteException{
+		User a = this.findUserById(uid);
+		return c.getSm().getUserServers(a);
+	}
 	/**
 	 * @return the c
 	 */
@@ -212,5 +239,16 @@ implements ConcordServerInterface{
 	 */
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	@Override
+	public void addServer(int id, String name) throws RemoteException {
+		User user = c.getUm().getUser(id);
+		try {
+			c.getSm().createServer(name, user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

@@ -4,9 +4,11 @@ import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Concord {
@@ -39,6 +41,14 @@ public class Concord {
 			decoder=new XMLDecoder(new BufferedInputStream(new FileInputStream(SERIALIZED_FILE_NAME)));
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: File concord.xml not found");
+			System.out.println("Creating new Concord");
+			File con = new File(SERIALIZED_FILE_NAME);
+			try {
+				con.createNewFile();
+			} catch (IOException d) {
+				d.printStackTrace();
+			}
+			return new Concord();
 		}
 		Concord c = (Concord)decoder.readObject();
 		return c;

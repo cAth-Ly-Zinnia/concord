@@ -1,6 +1,13 @@
 package concord;
 
-public class RoleBuilder {
+import java.io.Serializable;
+
+public class RoleBuilder implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2597072326472630305L;
 
 	public RoleBuilder() {
 		// TODO Auto-generated constructor stub

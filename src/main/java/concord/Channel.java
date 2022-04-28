@@ -1,8 +1,13 @@
 package concord;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Channel {
+public class Channel implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3171061004617184614L;
 	private String name;
 	private ArrayList<Message> messages = new ArrayList<Message>();
 

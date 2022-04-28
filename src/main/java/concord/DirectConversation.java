@@ -1,10 +1,15 @@
 package concord;
 
+import java.io.Serializable;
 //import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class DirectConversation {
+public class DirectConversation implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2586078589438628049L;
 	private ArrayList<User> users = new ArrayList<User>();
 	private ArrayList<Message> messages = new ArrayList<Message>();
 
@@ -60,6 +65,8 @@ public class DirectConversation {
 		this.messages = messages;
 	}
 	
+	
+	
 	public boolean contains(User u) {
 		for(User one: users) {
 			if(one.equals(u)) {
@@ -92,4 +99,17 @@ public class DirectConversation {
 		}
 		return true;
 	}
+
+	public String getName() {
+		String name = "";
+		for (User u:users){
+			String user = u.getUserName();
+			name = name + " " + user;
+		}
+		return name;
+	}
+
+	/*public void setName(String name) {
+		this.name = name;
+	}*/
 }

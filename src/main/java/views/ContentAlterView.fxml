@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ContentController">
+   <left>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane hbarPolicy="NEVER" prefHeight="370.0" prefWidth="100.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="370.0" prefWidth="100.0">
+                     <children>
+                        <Button id="homeButton" layoutX="14.0" layoutY="2.0" mnemonicParsing="false" onAction="#onClickHome" text="Home" />
+                        <ListView id="svListView" fx:id="serverListView" layoutY="28.0" onMouseClicked="#serverListViewClicked" prefHeight="342.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
+                        <Button layoutY="343.0" mnemonicParsing="false" onAction="#addServerClicked" prefHeight="26.0" prefWidth="83.0" text="Add Server" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+            <Button id="buttonLogout" mnemonicParsing="false" onAction="#onClickLogOut" text="Logout">
+               <VBox.margin>
+                  <Insets left="20.0" top="2.0" />
+               </VBox.margin></Button>
+         </children>
+      </VBox>
+   </left>
+</BorderPane>

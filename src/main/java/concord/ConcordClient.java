@@ -1,31 +1,70 @@
 package concord;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 
-public class ConcordClient {
+import models.ConcordModel;
+
+public class ConcordClient extends UnicastRemoteObject 
+						   implements ConcordClientInterface, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9010417063478819564L;
 	private ConcordServer cs;
 	private User u;
+	private int uid;
 	private ConcordServerInterface csi;
+	private ConcordModel model;
 	
-	public ConcordClient() {
+	public ConcordClient() throws RemoteException{
+		this(new ConcordModel());
+	}
+	
+	public ConcordClient(ConcordModel cModel) throws RemoteException{
+		super();
 		try {
-			csi = (ConcordServerInterface) Naming.lookup("rmi://127.0.0.1/CONCORDS");
-		} catch (MalformedURLException | RemoteException | NotBoundException e) {
+			csi = (ConcordServerInterface) Naming.lookup("rmi://127.0.0.1:2099/CONCORDS");
+			model = cModel;
+		} catch (MalformedURLException | NotBoundException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public boolean verify(String userName, String pw) {
+	/*
+	 * server updates
+	 * then client update models
+	 * 
+	 */
+	public void notifyClient() throws RemoteException{
+		System.out.println("there has been changes");
+		model.reset();
+	}
+	
+	public void verify(String userName, String pw) {
 		try {
 			System.out.println("Submitting info");
-			return csi.verify(userName, pw);
+			u = csi.verify(userName, pw);
+			uid = u.getId();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return false;
+	}
+	
+	@Override
+	public void createUser(String uName, String rName, String pw){
+		try {
+			csi.createUser(uName, rName, pw);
+			csi.addObserver(this);
+			 
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public User findUserById(int id) {
@@ -37,9 +76,9 @@ public class ConcordClient {
 		return null;
 	}
 	
-	public void invite(int id, User user, Server s) {
+	public void invite(User user, Server s) {
 		try {
-			csi.invite(id, user, s);
+			csi.invite(uid, user, s);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -48,46 +87,52 @@ public class ConcordClient {
 	public void accept(User member, Server s) {
 		try {
 			csi.accept(member, s);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void kick(int id, User user, Server s) {
+	public void kick(User user, Server s) {
 		try {
-			csi.kick(id, user, s);
+			csi.kick(uid, user, s);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void changeServerName(int id, Server s, String serverName) {
+	public void changeServerName(Server ser, String serverName) {
 		try {
-			csi.changeServerName(id, s, serverName);
+			csi.changeServerName(uid, ser, serverName);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void changeChannelName(int id, Channel c, Server s, String channelName) {
+	public void changeChannelName(Channel c, Server s, String channelName) {
 		try {
-			csi.changeChannelName(id, c, s, channelName);
+			csi.changeChannelName(uid, c, s, channelName);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void addChannel(int id, Server s, Channel channel) {
+	public void addChannel(Server s, Channel channel) {
 		try {
-			csi.addChannel(id, s, channel);
+			csi.addChannel(uid, s, channel);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void deleteChannel(int id, Server s, Channel channel) {
+	public void deleteChannel(Server s, Channel channel) {
 		try {
-			csi.deleteChannel(id, s, channel);
+			csi.deleteChannel(uid, s, channel);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -96,6 +141,7 @@ public class ConcordClient {
 	public void addPin(Server s, Message message) {
 		try {
 			csi.addPin(s, message);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -104,62 +150,80 @@ public class ConcordClient {
 	public void unPin(Server s, Message message) {
 		try {
 			csi.unPin(s, message);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void changeRole(int id, User user, String newRole, Server s) {
+	public void changeRole(User user, String newRole, Server s) {
 		try {
-			csi.changeRole(id, user, newRole, s);
+			csi.changeRole(uid, user, newRole, s);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void addBlock(int id, User user) {
+	public void addBlock(User user) {
 		try {
-			csi.addBlock(id, user);
+			csi.addBlock(uid, user);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void removeBlock(int id, User user) {
+	public void removeBlock(User user) {
 		try {
-			csi.removeBlock(id, user);
+			csi.removeBlock(uid, user);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setProfileData(int id, String s) {
+	public void setProfileData(String s) {
 		try {
-			csi.setProfileData(id, s);
+			csi.setProfileData(uid, s);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setUsername(int id, String newUsername) {
+	public void setUsername(String newUsername) {
 		try {
-			csi.setUsername(id, newUsername);
+			csi.setUsername(uid, newUsername);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void setProfilePic(int id, String newUrlPic) {
+	public void setProfilePic(String newUrlPic) {
 		try {
-			csi.setProfileData(id, newUrlPic);
+			csi.setProfileData(uid, newUrlPic);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void sendPrivateMessage(Message m, DirectConversation dc) {
+	@Override
+	public void addServer(String name) throws RemoteException {
+		try {
+			csi.addServer(uid, name);
+			 
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void sendDCMessage(Message m, DirectConversation dc) {
 		try {
 			csi.sendPrivateMessage(m, dc);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -168,11 +232,21 @@ public class ConcordClient {
 	public void sendChannelMessage(Message m, User user, Server s, Channel c) {
 		try {
 			csi.sendChannelMessage(m, s, c);
+			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public ArrayList<DirectConversation> getDcById() throws RemoteException {
+		return csi.getDcById(uid);
+	}
 
+	@Override
+	public ArrayList<Server> getServerByUserId() throws RemoteException {
+		return csi.getServerByUserId(uid);
+	}
 	/**
 	 * @return the cs
 	 */

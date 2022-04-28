@@ -9,8 +9,19 @@ public class DirectConversationManager {
 	public DirectConversationManager() {
 		this.dcs = new ArrayList<DirectConversation>();
 	}
+	public ArrayList<DirectConversation> getDcListByUserId(int id){
+		ArrayList<DirectConversation> list = new ArrayList<DirectConversation>();
+		for (DirectConversation d : dcs) {
+			for (User a : d.getUsers()){
+				if(a.getId() == id) {
+					list.add(d);
+				}
+			}
+		}
+		return list;
+	}
 	
-	public ArrayList<DirectConversation> getPastConversations(User a){		
+	public ArrayList<DirectConversation> getPastConversations(User a){
 		ArrayList<DirectConversation> gpc = new ArrayList<DirectConversation>();
 		for (DirectConversation d : dcs) {
 			if (d.getUsers().contains(a)) {

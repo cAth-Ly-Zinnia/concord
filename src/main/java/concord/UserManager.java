@@ -23,6 +23,18 @@ public class UserManager {
 		return null;
 	}
 	
+	public User verify (String username, String pw) {
+		for (User user : this.getUsers()) {
+			if (user.getUserName().equals(username)) {
+				if (user.getPassword().equals(pw)) {
+					return user;
+				}
+			}
+		}
+		System.out.println("did not find");
+		return null;
+	}
+	
 	public void createUser(String un, String rn, String pw) {
 		User us = new User();
 		

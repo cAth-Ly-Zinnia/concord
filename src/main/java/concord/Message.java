@@ -1,9 +1,14 @@
 package concord;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Message {
+public class Message implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 41938125393585937L;
 	private User user;
 	private String content;
 	private LocalDateTime timeStamp;

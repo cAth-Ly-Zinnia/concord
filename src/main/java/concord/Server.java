@@ -1,9 +1,14 @@
 package concord;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Server {
+public class Server  implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5151351892689964862L;
 	private HashMap<User, Role> roles = new HashMap<User, Role>();
 	private ArrayList<Channel> channels = new ArrayList<Channel>();
 	private ArrayList<Message> pins = new ArrayList<Message>();
