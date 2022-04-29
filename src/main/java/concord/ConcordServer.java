@@ -5,6 +5,7 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import concord.ConcordServer;
 
@@ -67,6 +68,7 @@ implements ConcordServerInterface{
 	@Override
 	public void createUser(String username, String realname, String pw) throws RemoteException {
 		c.getUm().createUser(username, realname, pw);
+		this.makeChange();
 		
 	}
 	
@@ -91,6 +93,7 @@ implements ConcordServerInterface{
 	public void accept(User member, Server s) throws RemoteException {
 		// TODO Auto-generated method stub
 		s.addMember(member);
+		this.makeChange();
 	}
 
 	@Override
@@ -99,11 +102,13 @@ implements ConcordServerInterface{
 		u1 = c.getUm().getUser(id);
 		Role r = s.getRole(u1);
 		s.removeMember(r, user);
+		this.makeChange();
 	}
 
 	@Override
 	public void changeServerName(int id, Server s, String serverName) throws RemoteException {
 		s.setName(serverName);
+		this.makeChange();
 	}
 
 	@Override
@@ -111,20 +116,33 @@ implements ConcordServerInterface{
 		u1 = c.getUm().getUser(id);
 		Channel channel = s.getChannel(chan.getName());
 		channel.setName(channelName);
+		this.makeChange();
 	}
 
 	@Override
-	public void addChannel(int id, Server s, Channel channel) throws RemoteException {
-		u1 = c.getUm().getUser(id);
+	public void addChannel(int id, Server s, String name) throws RemoteException {
+		Server server = null;
+		u1 = s.findEquivalentUser(id);
 		Role r = s.getRole(u1);
-		s.addChannel(r, channel);
+		Channel channel = new Channel();
+		channel.setName(name);
+		for(Server s1 : c.getSm().getServers()) {
+			if(s1.getName().equals(s.getName())) {
+				server = s1;
+			}
+		}
+		System.out.println(server);
+		server.addChannel(r, channel);
+		this.makeChange();
 	}
+	
 
 	@Override
 	public void deleteChannel(int id, Server s, Channel channel) throws RemoteException {
 		u1 = c.getUm().getUser(id);
 		Role r = s.getRole(u1);
 		s.deleteChannel(r, channel);
+		this.makeChange();
 	}
 
 	@Override
@@ -132,12 +150,14 @@ implements ConcordServerInterface{
 		u1 = c.getUm().getUser(id);
 		Role r = s.getRole(u1);
 		s.changeUser(r, user, newRole);	
+		this.makeChange();
 	}
 
 	@Override
 	public void addBlock(int id, User user) throws RemoteException {
 		u1 = c.getUm().getUser(id);
 		u1.addBlock(user);
+		this.makeChange();
 	}
 
 	@Override
@@ -145,6 +165,7 @@ implements ConcordServerInterface{
 		// TODO Auto-generated method stub
 		u1 = c.getUm().getUser(id);
 		u1.removeBlock(user);
+		this.makeChange();
 		
 	}
 
@@ -153,7 +174,7 @@ implements ConcordServerInterface{
 		// TODO Auto-generated method stub
 		u1 = c.getUm().getUser(id);
 		u1.setProfileData(profD);
-		
+		this.makeChange();
 	}
 
 	@Override
@@ -161,6 +182,7 @@ implements ConcordServerInterface{
 		// TODO Auto-generated method stub
 		u1 = c.getUm().getUser(id);
 		u1.setUserName(newUsername);
+		this.makeChange();
 	}
 
 	@Override
@@ -168,6 +190,7 @@ implements ConcordServerInterface{
 		// TODO Auto-generated method stub
 		u1 = c.getUm().getUser(id);
 		u1.setUrlPic(newPicURL);
+		this.makeChange();
 	}
 
 	@Override
@@ -175,25 +198,28 @@ implements ConcordServerInterface{
 		// TODO Auto-generated method stub
 		System.out.println(dc);
 		dc.sendMessage(m);
-		//dc.notify();
-		
+		this.makeChange();	
 	}
 
 	@Override
-	public void sendChannelMessage(Message m, Server s, Channel c) throws RemoteException {
-		// TODO Auto-generated method stub
+	public void sendChannelMessage(Message m, int id, Server s, Channel channel) throws RemoteException {
 		// getChannel and then sendMessage
-		c.sendMessage(m);
+		u1 = c.getUm().getUser(id);
+		m.setUser(u1);
+		channel.sendMessage(m);
+		this.makeChange();
 	}
 
 	@Override
 	public void addPin(Server s, Message message) throws RemoteException {
 		s.addPin(message);
+		this.makeChange();
 	}
 
 	@Override
 	public void unPin(Server s, Message message) throws RemoteException {
 		s.removePin(message);
+		this.makeChange();
 	}
 	
 	@Override
@@ -243,12 +269,20 @@ implements ConcordServerInterface{
 
 	@Override
 	public void addServer(int id, String name) throws RemoteException {
-		User user = c.getUm().getUser(id);
+		u1 = c.getUm().getUser(id);
 		try {
-			c.getSm().createServer(name, user);
+			c.getSm().createServer(name, u1);
+			this.makeChange();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 	}
+	
+	@Override
+	public void deleteServer(int id, Server s) throws RemoteException {
+		u1 = c.getUm().getUser(id);
+		c.getSm().deleteServer(s, u1);
+	}
+
 }

@@ -140,7 +140,7 @@ public class TestLogin
 		robot.clickOn(robot.lookup("#dcList").nth(0).queryAs(Node.class));
 		try
 		{
-			Thread.sleep(100);
+			Thread.sleep(100000);
 		} catch (InterruptedException e)
 		{
 			// TODO Auto-generated catch block
@@ -256,7 +256,7 @@ public class TestLogin
 			for (Message m: d.getMessages())
 			{
 				boolean exist = false;
-				for (Message curM: model.getMessages())
+				for (Message curM: model.getDcsMessages())
 					if (curM.getContent().equals(m.getContent())) exist = true;
 				assertTrue(exist);
 			}

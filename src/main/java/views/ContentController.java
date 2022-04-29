@@ -31,14 +31,11 @@ public class ContentController
     @FXML
     private ListView<Server> serverListView;
     
-    //private ListView<Label> serverListView;
-	
 	public void setModel(ViewTransitionModelInterface m, ConcordModel cModel, ConcordClient c)
 	{
 		model = m;
 		concordModel = cModel;
 		client = c;
-		//serverListView.setEditable(true);
 		
 		serverListView.setCellFactory(new Callback<ListView<Server>, ListCell<Server>>()
 		{
@@ -60,7 +57,7 @@ public class ContentController
     @FXML
     void onClickLogOut(ActionEvent event) 
     {
-    	concordModel.reset();
+    	//concordModel.reset();
     	model.showLogin();
     }
     
@@ -68,7 +65,12 @@ public class ContentController
     void serverListViewClicked(MouseEvent event) 
     {
     	Server s = serverListView.getSelectionModel().getSelectedItem();
-    	model.showServer(s);
+    	System.out.println(s.getName());
+    	try {
+			model.showServer(s);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
     }
 	
     @FXML

@@ -14,7 +14,7 @@ public interface ConcordClientInterface extends Remote{
 	public void kick(User user, Server s) throws RemoteException;
 	public void changeServerName(Server s, String serverName) throws RemoteException;
 	public void changeChannelName(Channel c, Server s, String channelName) throws RemoteException;
-	public void addChannel(Server s, Channel channel) throws RemoteException;
+	public void addChannel(Server s, String name) throws RemoteException;
 	public void deleteChannel(Server s, Channel channel) throws RemoteException;
 	public void addPin(Server s, Message message) throws RemoteException;
 	public void unPin(Server s, Message message) throws RemoteException;
@@ -25,11 +25,12 @@ public interface ConcordClientInterface extends Remote{
 	public void setUsername(String newUsername) throws RemoteException;
 	public void setProfilePic(String newUrlPic) throws RemoteException;
 	public void sendDCMessage(Message m, DirectConversation dc) throws RemoteException;
-	public void sendChannelMessage(Message m, User user, Server s, Channel c) throws RemoteException;
+	public void sendChannelMessage(Message m, Server s, Channel c) throws RemoteException;
 	public ArrayList<DirectConversation> getDcById() throws RemoteException;
 	public ArrayList<Server> getServerByUserId() throws RemoteException;
 	
 	public void addServer(String name) throws RemoteException;
+	public void deleteServer(Server s) throws RemoteException;
 	
 	public void notifyClient() throws RemoteException;
 }

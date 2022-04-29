@@ -38,7 +38,7 @@ public class DCController
 		client = c;
 		
 		dcListView.setItems(concordModel.getDcs());
-		dcMessageListView.setItems(concordModel.getMessages());
+		dcMessageListView.setItems(concordModel.getDcsMessages());
 		userNameTextField.setText(client.getU().getUserName());
 		//dcList.setCellFactory(null);
 	}
@@ -70,11 +70,6 @@ public class DCController
   
     	DirectConversation dc = dcListView.getSelectionModel().getSelectedItem();
     	client.sendDCMessage(message, dc);
-    	if (dc != null) {
-    		concordModel.getMessages().add(message);
-    	}
-    	dcMessageListView.setItems(concordModel.getMessages());
-    	dcMessageTextField.setText("");
     }
 
 }

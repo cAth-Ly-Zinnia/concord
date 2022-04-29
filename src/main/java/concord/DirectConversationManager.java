@@ -1,9 +1,14 @@
 package concord;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DirectConversationManager {
+public class DirectConversationManager implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8275515918893546610L;
 	private ArrayList<DirectConversation> dcs;
 
 	public DirectConversationManager() {

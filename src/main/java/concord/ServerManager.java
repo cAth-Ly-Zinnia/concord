@@ -1,8 +1,13 @@
 package concord;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class ServerManager {
+public class ServerManager implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5563549674639790867L;
 	ArrayList<Server> servers;
 	RoleBuilder roleBuilder = new RoleBuilder();
 	public ServerManager() {
@@ -36,6 +41,19 @@ public class ServerManager {
 		Server server = new Server(name, a);
 		servers.add(server);		
 		return server;
+	}
+	
+	public void deleteServer(Server a, User u) {
+		Role admin;
+		try {
+			admin = roleBuilder.createUserRole("admin", u);
+			if(a.getRole(u).equals(admin)) {
+				servers.remove(a);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**

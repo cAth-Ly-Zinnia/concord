@@ -3,6 +3,7 @@ package concord;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class Server  implements Serializable{
 	/**
@@ -21,6 +22,9 @@ public class Server  implements Serializable{
 			Role admin = this.roleBuilder.createUserRole("admin", u);
 			this.name = n;
 			roles.put(u, admin);
+			Channel general = new Channel();
+			general.setName("general");
+			channels.add(general);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,6 +48,24 @@ public class Server  implements Serializable{
 			}
 		}
 		return false;
+	}
+	
+	public ArrayList<User> getUsers(){
+		HashSet<User> u1 = new HashSet<User>(roles.keySet());
+		ArrayList<User> users = new ArrayList<User>(u1);
+		return users;
+	}
+	
+	public User findEquivalentUser(int id) {
+		HashSet<User> users = new HashSet<User>(roles.keySet());
+		User[] a = new User[roles.size()];
+		users.toArray(a);
+		for(User user:a) {
+			if(user.getId() == id) {
+				return user;
+			}
+		}
+		return null;
 	}
 	
 	public boolean contains(Channel that) {

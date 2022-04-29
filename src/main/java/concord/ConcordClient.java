@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
+import javafx.application.Platform;
 import models.ConcordModel;
 
 public class ConcordClient extends UnicastRemoteObject 
@@ -35,7 +36,7 @@ public class ConcordClient extends UnicastRemoteObject
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
 	 * server updates
 	 * then client update models
@@ -43,7 +44,14 @@ public class ConcordClient extends UnicastRemoteObject
 	 */
 	public void notifyClient() throws RemoteException{
 		System.out.println("there has been changes");
-		model.reset();
+		Platform.runLater(()->{
+			try {
+				model.reset(csi.getConcord());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		});
+
 	}
 	
 	public void verify(String userName, String pw) {
@@ -59,8 +67,8 @@ public class ConcordClient extends UnicastRemoteObject
 	@Override
 	public void createUser(String uName, String rName, String pw){
 		try {
-			csi.createUser(uName, rName, pw);
 			csi.addObserver(this);
+			csi.createUser(uName, rName, pw);
 			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -120,9 +128,9 @@ public class ConcordClient extends UnicastRemoteObject
 		}
 	}
 	
-	public void addChannel(Server s, Channel channel) {
+	public void addChannel(Server s, String name) {
 		try {
-			csi.addChannel(uid, s, channel);
+			csi.addChannel(uid, s, name);
 			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -220,6 +228,16 @@ public class ConcordClient extends UnicastRemoteObject
 		}
 	}
 	
+	@Override
+	public void deleteServer(Server s) throws RemoteException {
+		try {
+			csi.deleteServer(uid, s);
+			 
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void sendDCMessage(Message m, DirectConversation dc) {
 		try {
 			csi.sendPrivateMessage(m, dc);
@@ -229,9 +247,9 @@ public class ConcordClient extends UnicastRemoteObject
 		}
 	}
 	
-	public void sendChannelMessage(Message m, User user, Server s, Channel c) {
+	public void sendChannelMessage(Message m, Server s, Channel c) {
 		try {
-			csi.sendChannelMessage(m, s, c);
+			csi.sendChannelMessage(m, uid, s, c);
 			 
 		} catch (RemoteException e) {
 			e.printStackTrace();

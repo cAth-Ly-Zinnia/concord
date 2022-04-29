@@ -9,9 +9,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Concord {
+public class Concord implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3096516784268718835L;
 	private DirectConversationManager dcm;
 	private ServerManager sm;
 	private UserManager um;

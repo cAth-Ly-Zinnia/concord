@@ -1,9 +1,11 @@
 package models;
 
 import concord.Channel;
+import concord.Concord;
 import concord.DirectConversation;
 import concord.Message;
 import concord.Server;
+import concord.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
@@ -13,22 +15,64 @@ public class ConcordModel
 	ObservableList<Server> servers = FXCollections.observableArrayList();
 	ObservableList<Channel> channels = FXCollections.observableArrayList();
 	ObservableList<DirectConversation> dcs = FXCollections.observableArrayList();
-	ObservableList<Message> messages = FXCollections.observableArrayList();
+	ObservableList<Message> serMessages = FXCollections.observableArrayList();
+	ObservableList<Message> dcsMessages = FXCollections.observableArrayList();
+	ObservableList<User> users = FXCollections.observableArrayList();
 	
 	public ConcordModel() {}
 	
-	public void reset()
+	public void reset(Concord c)
 	{
 		servers.clear();
-		servers = FXCollections.observableArrayList();
+		for (Server s : c.getSm().getServers()) {
+			servers.add(s);
+		}
+		
 		dcs.clear();
-		dcs = FXCollections.observableArrayList();
-		messages.clear();
-		messages = FXCollections.observableArrayList();
+		for (DirectConversation dc : c.getDcm().getDcs()) {
+			dcs.add(dc);
+		}
+		
+		serMessages.clear();
+		//grabs current channel message
+		//getting current server to show the
+		for (Server s : c.getSm().getServers()) {
+			for (Channel c1: s.getChannels()) {
+				for (Message m : c1.getMessages()) {
+					serMessages.add(m);
+				}
+			}
+		}
+		//need to grab current channel
 		channels.clear();
-		channels = FXCollections.observableArrayList();
+		for (Server s : c.getSm().getServers()) {
+			for (Channel c1: s.getChannels()) {
+				channels.add(c1);
+			}
+		}
+		
+		users.clear();
+		for (Server s : c.getSm().getServers()) {
+			for (User u : s.getUsers()) {
+				users.add(u);
+			}
+		}
+		
+		dcsMessages.clear();
+		for (DirectConversation dc : c.getDcm().getDcs()) {
+			for (Message m: dc.getMessages()) {
+				dcsMessages.add(m);
+			}
+		}
 	}
 	
+	/**
+	 * @return the users
+	 */
+	public ObservableList<User> getUsers() {
+		return users;
+	}
+
 	public ObservableList<Server> getServers()
 	{
 		return servers;
@@ -44,8 +88,13 @@ public class ConcordModel
 		return dcs;
 	}
 	
-	public ObservableList<Message> getMessages()
+	public ObservableList<Message> getSerMessages()
 	{
-		return messages;
+		return serMessages;
+	}
+	
+	public ObservableList<Message> getDcsMessages()
+	{
+		return dcsMessages;
 	}
 }

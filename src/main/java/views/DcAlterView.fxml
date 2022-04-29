@@ -24,6 +24,11 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
+            <HBox prefHeight="31.0" prefWidth="150.0">
+               <children>
+                  <Button mnemonicParsing="false" text="Add DirectConversation" textAlignment="CENTER" />
+               </children>
+            </HBox>
             <HBox prefHeight="30.0" prefWidth="200.0">
                <children>
                   <Label id="usernameLabel" fx:id="userNameTextField" text="Username" />

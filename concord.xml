@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="17.0.2" class="java.beans.XMLDecoder">
+ <object class="concord.Concord" id="Concord0">
+  <void id="ServerManager0" property="sm">
+   <void property="servers">
+    <void method="add">
+     <object class="concord.Server" id="Server0">
+      <void property="channels">
+       <void method="add">
+        <object class="concord.Channel">
+         <void property="name">
+          <string>general</string>
+         </void>
+        </object>
+       </void>
+       <void method="add">
+        <object class="concord.Channel">
+         <void property="name">
+          <string>mama</string>
+         </void>
+        </object>
+       </void>
+      </void>
+      <void property="name">
+       <string>joe</string>
+      </void>
+      <void property="roles">
+       <void method="put">
+        <object class="concord.User" id="User0">
+         <void property="id">
+          <int>1</int>
+         </void>
+         <void property="password">
+          <string>123</string>
+         </void>
+         <void property="realName">
+          <string>mama</string>
+         </void>
+         <void property="userName">
+          <string>joe</string>
+         </void>
+        </object>
+        <object class="concord.Role">
+         <void property="addAdmin">
+          <boolean>true</boolean>
+         </void>
+         <void property="addChannel">
+          <boolean>true</boolean>
+         </void>
+         <void property="addModerator">
+          <boolean>true</boolean>
+         </void>
+         <void property="inviteUser">
+          <boolean>true</boolean>
+         </void>
+         <void property="removeChannel">
+          <boolean>true</boolean>
+         </void>
+         <void property="removeMember">
+          <boolean>true</boolean>
+         </void>
+         <void property="removeModerator">
+          <boolean>true</boolean>
+         </void>
+        </object>
+       </void>
+      </void>
+     </object>
+    </void>
+    <void method="add">
+     <object class="concord.Server" id="Server1">
+      <void property="channels">
+       <void method="add">
+        <object class="concord.Channel">
+         <void property="name">
+          <string>general</string>
+         </void>
+        </object>
+       </void>
+      </void>
+      <void property="name">
+       <string>mama</string>
+      </void>
+      <void property="roles">
+       <void method="put">
+        <object idref="User0"/>
+        <object class="concord.Role">
+         <void property="addAdmin">
+          <boolean>true</boolean>
+         </void>
+         <void property="addChannel">
+          <boolean>true</boolean>
+         </void>
+         <void property="addModerator">
+          <boolean>true</boolean>
+         </void>
+         <void property="inviteUser">
+          <boolean>true</boolean>
+         </void>
+         <void property="removeChannel">
+          <boolean>true</boolean>
+         </void>
+         <void property="removeMember">
+          <boolean>true</boolean>
+         </void>
+         <void property="removeModerator">
+          <boolean>true</boolean>
+         </void>
+        </object>
+       </void>
+      </void>
+     </object>
+    </void>
+   </void>
+  </void>
+  <void id="UserManager0" property="um">
+   <void property="id">
+    <int>1</int>
+   </void>
+   <void property="users">
+    <void method="add">
+     <object idref="User0"/>
+    </void>
+   </void>
+  </void>
+ </object>
+</java>

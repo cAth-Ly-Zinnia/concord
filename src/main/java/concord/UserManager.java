@@ -1,8 +1,13 @@
 package concord;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UserManager {
+public class UserManager implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2202040551263118553L;
 	private ArrayList<User> users;
 	private int id = 0;
 	

@@ -3,13 +3,19 @@ package views;
 import concord.Channel;
 import concord.ConcordClient;
 import concord.Message;
+import concord.Server;
 import concord.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import models.ConcordModel;
 import models.ViewTransitionModel;
 
@@ -18,6 +24,9 @@ public class ServerController
 	ConcordClient client;
 	ConcordModel concordModel;
 	ViewTransitionModel model;
+	Stage stage;
+	Server server;
+	Channel c;
 	
 	@FXML
     private ListView<Channel> channelListView;
@@ -37,16 +46,35 @@ public class ServerController
     @FXML
     private ListView<User> usersListView;
 	
-	public void setModel(ViewTransitionModel vModel, ConcordModel m, ConcordClient c)
+	public void setModel(ViewTransitionModel vModel, ConcordModel m, ConcordClient c, Server s)
 	{
 		model = vModel;
 		client = c;
 		concordModel = m;
 		userNameLabel.setText(client.getU().getUserName());
 		channelListView.setItems(concordModel.getChannels());
-		messageListView.setItems(concordModel.getMessages());
+		messageListView.setItems(concordModel.getSerMessages());
+		usersListView.setItems(concordModel.getUsers());
+		server = s;
 	}
 
+	@FXML
+    void addChannelClicked(ActionEvent event) throws Exception {
+    	stage = new Stage();
+    	stage.initModality(Modality.APPLICATION_MODAL);
+    	
+    	FXMLLoader loader = new FXMLLoader();
+    	loader.setLocation(ViewTransitionModel.class
+    			.getResource("../views/NewChannelView.fxml"));
+    	BorderPane view = loader.load();
+		NewChannelController cont = loader.getController();
+		
+		cont.setModel(stage, client, server);
+		Scene s = new Scene(view);
+		stage.setScene(s);
+		stage.show();
+    }
+	
     @FXML
     void btnPinsClicked(ActionEvent event) 
     {
@@ -62,6 +90,22 @@ public class ServerController
     @FXML
     void channelListViewClicked(MouseEvent event) 
     {
-    	
+    	c = channelListView.getSelectionModel().getSelectedItem();
+    	System.out.println("grabs: " + c);
+    	for(Message m: c.getMessages()) {
+    		concordModel.getSerMessages().add(m);
+    	}
+    	messageListView.setItems(concordModel.getSerMessages());
+    }
+    
+    @FXML
+    void sendMessage(ActionEvent event) {
+    	String content = messageTextField.getText();
+    	Message msg = new Message();
+    	msg.setContent(content);
+    	if(content != "") {
+    		System.out.println("sends: " + content);
+    		client.sendChannelMessage(msg, server, c);
+    	}
     }
 }

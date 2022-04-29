@@ -2,30 +2,37 @@ package views;
 
 import java.rmi.RemoteException;
 
+import concord.Channel;
 import concord.ConcordClient;
+import concord.Server;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import models.ConcordModel;
 
-public class NewServerController {
+public class NewChannelController {
 
 	ConcordClient client;
 	Stage stage;
+	ConcordModel model;
+	Server server;
 	
 	@FXML
-	private TextField serverTxtField;
+	private TextField channelTxtField;
 	
-	public void setModel(Stage s, ConcordClient c) {
+	public void setModel(Stage s, ConcordClient c, Server s1) {
 		stage = s;
 		client = c;
+		server = s1;
 	}
 	
 	public void confirm() throws RemoteException {
-		String serverName = serverTxtField.getText();
-    	if (!serverName.equals(""))
+		String channelName = channelTxtField.getText();
+    	if (!channelName.equals(""))
     	{
-    		client.addServer(serverName);
+    		// need to get this // -> serverListView.getSelectionModel().getSelectedItem();
+    		client.addChannel(server, channelName);
     	}
     	stage.close();
 	}

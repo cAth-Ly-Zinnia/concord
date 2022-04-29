@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+import concord.Channel;
 import concord.ConcordClient;
 import concord.DirectConversation;
 import concord.Message;
 import concord.Server;
+import concord.User;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
@@ -57,7 +59,8 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 
 	@Override
 	public void showContent() throws RemoteException
-	{			
+	{		
+		concordModel.getServers().clear();
 		if (concordModel.getServers().size() == 0)
 		{
 			ArrayList<Server> serverList;
@@ -97,8 +100,29 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	}
 	
 	@Override
-	public void showServer(Server s)
+	public void showServer(Server s) throws RemoteException
 	{
+		concordModel.getChannels().clear();
+		if (concordModel.getChannels().size() == 0)
+		{
+			ArrayList<Channel> channelList;
+			channelList = s.getChannels();
+			for (Channel c: channelList)
+			{
+				concordModel.getChannels().add(c);
+			}
+		}
+		
+		concordModel.getUsers().clear();
+		if (concordModel.getUsers().size() == 0)
+		{
+			ArrayList<User> userList;
+			userList = s.getUsers();
+			for (User u: userList)
+			{
+				concordModel.getUsers().add(u);
+			}
+		}
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
 				.getResource("../views/ServerAlterView.fxml"));
@@ -111,7 +135,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			BorderPane content = (BorderPane) mainView.lookup("#contentPane");
 			content.setCenter(view);
 			ServerController cont = loader.getController();
-			cont.setModel(this, concordModel, client);
+			cont.setModel(this, concordModel, client, s);
 		} 
 		catch (IOException e)
 		{
@@ -123,8 +147,8 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	@Override
 	public void showDc()
 	{
-		System.out.println("aaaaaaaaa");
-		if (concordModel.getMessages().size() == 0)
+		concordModel.getDcsMessages().clear();
+		if (concordModel.getDcsMessages().size() == 0)
 		{ 
 			ArrayList<DirectConversation> dcList;
 			try
@@ -132,15 +156,10 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 				dcList = client.getDcById();
 				for (DirectConversation d: dcList)
 				{
-					//Label l = new Label();
-					//l.setText(d.getName());
-					//System.out.println(l.getText());
 					concordModel.getDcs().add(d);
 					for (Message m: d.getMessages())
 					{
-						//l = new Label();
-						//l.setText(m.getContent());
-						concordModel.getMessages().add(m);
+						concordModel.getDcsMessages().add(m);
 					}
 				}
 			} catch (RemoteException e1)
@@ -151,15 +170,10 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		}
 		
 		FXMLLoader loader = new FXMLLoader();
-		//loader.setLocation(ViewTransitionModel.class
-		//		.getResource("../views/DirectConversationView.fxml"));
 		loader.setLocation(ViewTransitionModel.class
 			  .getResource("../views/DcAlterView.fxml"));
 		try
 		{
-			//VBox view = loader.load();
-			//BorderPane joe = (BorderPane) mainView.lookup("#rightSide");
-			//joe.setCenter(view);
 			BorderPane view = loader.load();
 			BorderPane content = (BorderPane) mainView.lookup("#contentPane");
 			content.setCenter(view);
@@ -168,7 +182,6 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 	}
@@ -196,7 +209,6 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -215,7 +227,6 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 		} 
 		catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

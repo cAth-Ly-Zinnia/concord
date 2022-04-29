@@ -242,9 +242,7 @@ class ConcordClientServerTest {
 			u = csi.findUserById(1);
 
 			joe = csi.getConcord().getSm().getServer("joe");
-			c = new Channel();
-			c.setName("chat");
-			csi.addChannel(u.getId(), joe, c);
+			csi.addChannel(u.getId(), joe, "chat");
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");
@@ -269,7 +267,7 @@ class ConcordClientServerTest {
 			assertEquals(null, joe.getChannel("joe"));
 			
 			//add channel for cc test is here
-			cc.addChannel(joe, c);
+			cc.addChannel(joe, "joe");
 			assertEquals(c, joe.getChannel("joe"));
 			
 			//delete channel for cc
@@ -504,7 +502,7 @@ class ConcordClientServerTest {
 			Message m = new Message();
 			m.setContent("hello");
 			
-			csi.sendChannelMessage(m, joe, c);
+			csi.sendChannelMessage(m, 1, joe, c);
 			assertEquals(1, c.getMessages().size());
 			
 		} catch (Exception e) {
