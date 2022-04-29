@@ -206,7 +206,10 @@ implements ConcordServerInterface{
 		// getChannel and then sendMessage
 		u1 = c.getUm().getUser(id);
 		m.setUser(u1);
-		channel.sendMessage(m);
+		Server s1 = c.getSm().getServer(s.getName());
+		Channel c1 = s1.getChannel(channel.getName());
+		c1.sendMessage(m);
+		System.out.println("sending");
 		this.makeChange();
 	}
 

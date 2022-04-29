@@ -1,5 +1,7 @@
 package views;
 
+import java.rmi.RemoteException;
+
 import concord.Channel;
 import concord.ConcordClient;
 import concord.Message;
@@ -105,7 +107,12 @@ public class ServerController
     	msg.setContent(content);
     	if(content != "") {
     		System.out.println("sends: " + content);
-    		client.sendChannelMessage(msg, server, c);
+    		try {
+				client.sendChannelMessage(msg, server, c);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
     	}
+    	messageTextField.setText("");
     }
 }

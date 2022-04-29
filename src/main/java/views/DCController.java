@@ -1,5 +1,7 @@
 package views;
 
+import java.rmi.RemoteException;
+
 import concord.ConcordClient;
 import concord.DirectConversation;
 import concord.Message;
@@ -69,7 +71,11 @@ public class DCController
     	// need to find the curDc client.getDcById();
   
     	DirectConversation dc = dcListView.getSelectionModel().getSelectedItem();
-    	client.sendDCMessage(message, dc);
+    	try {
+			client.sendDCMessage(message, dc);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
     }
 
 }

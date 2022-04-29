@@ -238,7 +238,7 @@ public class ConcordClient extends UnicastRemoteObject
 		}
 	}
 	
-	public void sendDCMessage(Message m, DirectConversation dc) {
+	public void sendDCMessage(Message m, DirectConversation dc) throws RemoteException{
 		try {
 			csi.sendPrivateMessage(m, dc);
 			 
@@ -247,7 +247,7 @@ public class ConcordClient extends UnicastRemoteObject
 		}
 	}
 	
-	public void sendChannelMessage(Message m, Server s, Channel c) {
+	public void sendChannelMessage(Message m, Server s, Channel c) throws RemoteException{
 		try {
 			csi.sendChannelMessage(m, uid, s, c);
 			 

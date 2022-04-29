@@ -18,7 +18,7 @@
                      <children>
                         <Button id="homeButton" layoutX="14.0" layoutY="2.0" mnemonicParsing="false" onAction="#onClickHome" text="Home" />
                         <ListView id="svListView" fx:id="serverListView" layoutY="28.0" onMouseClicked="#serverListViewClicked" prefHeight="342.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="28.0" />
-                        <Button layoutY="343.0" mnemonicParsing="false" onAction="#addServerClicked" prefHeight="26.0" prefWidth="83.0" text="Add Server" />
+                        <Button id="addServerButt" layoutY="343.0" mnemonicParsing="false" onAction="#addServerClicked" prefHeight="26.0" prefWidth="83.0" text="Add Server" />
                      </children>
                   </AnchorPane>
               </content>

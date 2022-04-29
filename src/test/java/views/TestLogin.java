@@ -54,6 +54,7 @@ public class TestLogin
 		cs = new ConcordServer();
 		registry = LocateRegistry.createRegistry(2099);
 		registry.rebind("CONCORDS", cs);
+		
 		cc = new ConcordClient();
 		model = new ConcordModel();
 		
@@ -79,12 +80,6 @@ public class TestLogin
 		m.setUser(user_1);
 		dc.sendMessage(m);
 		
-		/*
-		Message m1 = new Message();
-		m.setContent("hi");
-		m.setUser(user_3);
-		dc1.sendMessage(m1);
-		*/
 		ServerManager SM = cs.getConcord().getSm();
 		try {
 			SM.createServer("Test1", user_1);
@@ -140,55 +135,41 @@ public class TestLogin
 		robot.clickOn(robot.lookup("#dcList").nth(0).queryAs(Node.class));
 		try
 		{
-			Thread.sleep(100000);
+			Thread.sleep(1000);
 		} catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
 		testServer(user_1, 3);
-		
 		testDc(user_1);
 		testMessage(user_1);
+		
+		//adding new server
+		robot.clickOn("#addServerButt");
+		robot.clickOn("#serverEntryField");
+		robot.write("joe");
+		robot.clickOn("#confirmButton");
+		
+		testServer(user_1, 4);
+		
+		try
+		{
+			Thread.sleep(1000);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
 		
 		Assertions.assertThat(robot.lookup("#usernameLabel")
 				.queryAs(Label.class)).hasText(user_1.getUserName());
 		
 		robot.clickOn(robot.lookup("#svListView").nth(0).queryAs(Node.class));
-		
 		robot.clickOn("#homeButton");
-
-		/*
-		try
-		{
-			Thread.sleep(2000);
-		} catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}*/
 		
 		robot.clickOn("#btnSettings");
 		robot.clickOn("#btnUserInfo");
-		/*
-		try
-		{
-			Thread.sleep(2000);
-		} catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-		*/
 		robot.clickOn("#btnBlockList");
-		/*
-		try
-		{
-			Thread.sleep(5000);
-		} catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-		*/
 		robot.clickOn("#btnBack");
 		
 		robot.clickOn("#buttonLogout");
@@ -262,22 +243,4 @@ public class TestLogin
 			}
 		}
 	}
-	/*
-	void testUserName(User user)
-	{
-		/*FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(ViewTransitionModel.class
-			  .getResource("../views/DcAlterView.fxml"));
-		try
-		{
-			BorderPane view = loader.load();
-			DCController cont = loader.getController();	
-			cont.setModel(model, cc);
-			assertEquals(user.getUserName(), cont.getUserNameLabel().getText());
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
 }
