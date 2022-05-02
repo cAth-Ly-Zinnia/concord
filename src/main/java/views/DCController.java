@@ -42,7 +42,6 @@ public class DCController
 		dcListView.setItems(concordModel.getDcs());
 		dcMessageListView.setItems(concordModel.getDcsMessages());
 		userNameTextField.setText(client.getU().getUserName());
-		//dcList.setCellFactory(null);
 	}
 	
 	public Label getUserNameLabel()

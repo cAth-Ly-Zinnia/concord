@@ -32,38 +32,7 @@ public class ConcordModel
 		for (DirectConversation dc : c.getDcm().getDcs()) {
 			dcs.add(dc);
 		}
-		
-		serMessages.clear();
-		//grabs current channel message
-		//getting current server to show the
-		for (Server s : c.getSm().getServers()) {
-			for (Channel c1: s.getChannels()) {
-				for (Message m : c1.getMessages()) {
-					serMessages.add(m);
-				}
-			}
-		}
-		//need to grab current channel
-		channels.clear();
-		for (Server s : c.getSm().getServers()) {
-			for (Channel c1: s.getChannels()) {
-				channels.add(c1);
-			}
-		}
-		
-		users.clear();
-		for (Server s : c.getSm().getServers()) {
-			for (User u : s.getUsers()) {
-				users.add(u);
-			}
-		}
-		
-		dcsMessages.clear();
-		for (DirectConversation dc : c.getDcm().getDcs()) {
-			for (Message m: dc.getMessages()) {
-				dcsMessages.add(m);
-			}
-		}
+
 	}
 	
 	/**

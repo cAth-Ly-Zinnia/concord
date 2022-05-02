@@ -52,6 +52,8 @@ public class ContentController
 			System.out.println("server in list: " + s.getName());
 		}
 		serverListView.setItems(concordModel.getServers());
+    	serverListView.getSelectionModel().selectedItemProperty()
+    		.addListener((e)->{onSelectedItem();});
 	}
 	
     @FXML
@@ -63,17 +65,23 @@ public class ContentController
     
     @FXML
     void serverListViewClicked(MouseEvent event) 
-    {
-    	Server s = serverListView.getSelectionModel().getSelectedItem();
-    	System.out.println(s.getName());
-    	try {
-			model.showServer(s);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
+    {	
+    
     }
 	
-    @FXML
+    private void onSelectedItem() {
+    	Server s = serverListView.getSelectionModel().getSelectedItem();
+    	if(s != null) {
+	    	System.out.println(s.getName());
+	    	try {
+				model.showServer(s);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+    	}
+	}
+
+	@FXML
     void onClickHome(ActionEvent event) throws RemoteException
     {
     	model.showContent();

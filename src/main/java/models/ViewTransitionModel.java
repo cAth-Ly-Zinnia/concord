@@ -147,6 +147,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	@Override
 	public void showDc()
 	{
+		concordModel.getDcs().clear();
 		concordModel.getDcsMessages().clear();
 		if (concordModel.getDcsMessages().size() == 0)
 		{ 
@@ -168,7 +169,7 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 				e1.printStackTrace();
 			}
 		}
-		
+	
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
 			  .getResource("../views/DcAlterView.fxml"));

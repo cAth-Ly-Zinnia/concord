@@ -27,6 +27,7 @@ import concord.Server;
 import concord.ServerManager;
 import concord.User;
 import concord.UserManager;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -57,6 +58,7 @@ public class TestLogin
 		
 		cc = new ConcordClient();
 		model = new ConcordModel();
+		cs.addObserver(cc);
 		
 		UserManager UM = cs.getConcord().getUm();
 		UM.createUser("a", "abc", "123");
@@ -122,6 +124,18 @@ public class TestLogin
 		registry.unbind("CONCORDS");
 	}
 	
+	private void selectServer(FxRobot robot, int index)
+	{
+		Platform.runLater(()->{
+			@SuppressWarnings("unchecked")
+			ListView<Server> svList = (ListView<Server>) robot.lookup("#svListView")
+                    .queryAll().iterator().next();
+			svList.scrollTo(index);
+			svList.getSelectionModel().clearAndSelect(index);
+		});
+		
+	}
+
 	@Test
 	public void testLogin(FxRobot robot) throws RemoteException
 	{
@@ -151,11 +165,12 @@ public class TestLogin
 		robot.write("joe");
 		robot.clickOn("#confirmButton");
 		
+		robot.clickOn("#homeButton");
 		testServer(user_1, 4);
 		
 		try
 		{
-			Thread.sleep(1000);
+			Thread.sleep(200);
 		} catch (InterruptedException e)
 		{
 			e.printStackTrace();
@@ -164,8 +179,41 @@ public class TestLogin
 		Assertions.assertThat(robot.lookup("#usernameLabel")
 				.queryAs(Label.class)).hasText(user_1.getUserName());
 		
-		robot.clickOn(robot.lookup("#svListView").nth(0).queryAs(Node.class));
+		
+		selectServer(robot, 3);
+		
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#addChannelButton");
+		robot.clickOn("#channelEntryField");
+		robot.write("joe");
+		robot.clickOn("#comfirmButton");
+		
 		robot.clickOn("#homeButton");
+		
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		selectServer(robot, 3);
+		try
+		{
+			Thread.sleep(100);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		testChannels(user_1, 2);
 		
 		robot.clickOn("#btnSettings");
 		robot.clickOn("#btnUserInfo");
@@ -218,6 +266,22 @@ public class TestLogin
 		}
 	}
 	
+	void testChannels(User user, int amt) throws RemoteException {
+		assertEquals(amt, model.getChannels().size());
+
+		for (Channel c: model.getChannels())
+		{
+			//System.out.print(s.getServerName() + " ");
+			boolean exist = false;
+			for (Channel c1: model.getChannels())
+			{
+				//System.out.println(l.getText());
+				if (c1.getName().equals(c.getName())) exist = true;
+			}
+			assertTrue(exist);
+		}
+		
+	}
 	void testDc(User user)
 	{
 		for (DirectConversation d: cs.getConcord().getDcm().getDcListByUserId(user.getId()))

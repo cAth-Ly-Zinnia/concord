@@ -24,7 +24,7 @@
             <Label text="Channel Name:" />
             <TextField id="channelEntryField" fx:id="channelTxtField" onAction="#onEnterConfirm" GridPane.columnIndex="1" />
             <Button mnemonicParsing="false" onAction="#onClickCancel" text="Cancel" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#onClickConfirm" prefHeight="26.0" prefWidth="74.0" text="Confirm" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button id="comfirmButton" mnemonicParsing="false" onAction="#onClickConfirm" prefHeight="26.0" prefWidth="74.0" text="Confirm" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets left="80.0" />
                </GridPane.margin>

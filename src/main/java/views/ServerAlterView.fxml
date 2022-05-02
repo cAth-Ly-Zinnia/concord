@@ -28,7 +28,7 @@
                <children>
                   <HBox prefHeight="26.0" prefWidth="111.0">
                      <children>
-                        <Button id="channelButton" mnemonicParsing="false" onAction="#addChannelClicked" text="Add Channel">
+                        <Button id="addChannelButton" mnemonicParsing="false" onAction="#addChannelClicked" text="Add Channel">
                            <HBox.margin>
                               <Insets left="30.0" />
                            </HBox.margin>
