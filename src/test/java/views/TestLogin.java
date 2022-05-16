@@ -213,7 +213,7 @@ public class TestLogin
 		{
 			e.printStackTrace();
 		}
-		testChannels(user_1, 2);
+		testChannels(user_1, 2, "joe");
 		
 		robot.clickOn("#btnSettings");
 		robot.clickOn("#btnUserInfo");
@@ -266,12 +266,19 @@ public class TestLogin
 		}
 	}
 	
-	void testChannels(User user, int amt) throws RemoteException {
+	void testChannels(User user, int amt, String serverName) throws RemoteException {
 		assertEquals(amt, model.getChannels().size());
-
-		for (Channel c: model.getChannels())
+		
+		Server test = null;
+		for(Server s : cs.getC().getSm().getServers()) {
+			System.out.println(s.getName());
+			if (s.getName().equals(serverName)){
+				test = s;
+			}
+ 		}
+		
+		for (Channel c: test.getChannels())
 		{
-			//System.out.print(s.getServerName() + " ");
 			boolean exist = false;
 			for (Channel c1: model.getChannels())
 			{

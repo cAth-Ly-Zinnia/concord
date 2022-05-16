@@ -27,6 +27,11 @@ public class Channel implements Serializable{
 		messages.add(m);
 	}
 	
+	public void sendMessage(Message m, Level l) {
+		l.gainProgress();
+		messages.add(m);
+	}
+	
 	public ArrayList<Message> getMessages() {
 		return messages;
 	}

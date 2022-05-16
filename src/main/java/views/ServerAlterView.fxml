@@ -64,7 +64,14 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <TextField fx:id="messageTextField" onAction="#sendMessage" prefHeight="50.0" prefWidth="350.0" />
+            <HBox>
+               <children>
+                  <TextField fx:id="messageTextField" onAction="#sendMessage" prefHeight="26.0" prefWidth="308.0" />
+                  <Button mnemonicParsing="false" text="Bold" />
+                  <Button mnemonicParsing="false" text="Highlight" />
+                  <Button mnemonicParsing="false" text="Pin" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </center>

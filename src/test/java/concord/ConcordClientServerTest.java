@@ -74,6 +74,7 @@ class ConcordClientServerTest {
 		testSetUsername();
 		testSetProfilePic();
 		testSendPrivateMessage();
+		testSendChannelMessage();
 		testAccept();
 	}
 	
@@ -243,11 +244,12 @@ class ConcordClientServerTest {
 
 			joe = csi.getConcord().getSm().getServer("joe");
 			csi.addChannel(u.getId(), joe, "chat");
+			c = cs.getC().getSm().getServer("joe").getChannel("chat");
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");
 		}
-		assertEquals(c, joe.getChannel("chat"));
+		assertEquals(c.getName(), joe.getChannel("chat").getName());
 	}
 
 	void testDeleteChannel() {
@@ -268,9 +270,10 @@ class ConcordClientServerTest {
 			
 			//add channel for cc test is here
 			cc.addChannel(joe, "joe");
-			assertEquals(c, joe.getChannel("joe"));
+			assertEquals(c.getName(), joe.getChannel("joe").getName());
 			
 			//delete channel for cc
+			cc.setU(csi.findUserById(1));
 			cc.deleteChannel(joe, c);
 			assertEquals(null, joe.getChannel("joe"));
 		} catch (Exception e) {
@@ -330,7 +333,6 @@ class ConcordClientServerTest {
 		}
 	}
 
-	//TODO left off here
 	void testChangeRole() {
 		User u = null;
 		Server joe = null;
@@ -355,6 +357,11 @@ class ConcordClientServerTest {
 			
 			assertNotEquals(member, mod);
 			assertNotEquals(admin, mod);
+			
+			cc.changeRole(u1, "member", joe);
+			member = joe.getRole(u1);
+			assertNotEquals(mod, member);
+			assertNotEquals(admin, member);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");
@@ -364,12 +371,14 @@ class ConcordClientServerTest {
 	void testAddBlock() {
 		User u = null;
 		User u1 = null;
+		User u2 = null;
 		
 		try {
 			ConcordServerInterface csi;
 			csi = (ConcordServerInterface) registry.lookup("CONCORDS");
 			u = csi.findUserById(1);
-			u1 = csi.findUserById(3);
+			u1 = csi.findUserById(2);
+			u2 = csi.findUserById(3);
 			
 			int block = csi.getConcord().getUm().getUser(1).getBlocks().size();
 			assertEquals(0, block);
@@ -377,6 +386,10 @@ class ConcordClientServerTest {
 			csi.addBlock(u.getId(), u1);
 			block = csi.getConcord().getUm().getUser(1).getBlocks().size();
 			assertEquals(1, block);
+			
+			cc.addBlock(u2);
+			block = cc.getU().getBlocks().size();
+			assertEquals(2, block);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");
@@ -386,26 +399,32 @@ class ConcordClientServerTest {
 	void testRemoveBlock() {
 		User u = null;
 		User u1 = null;
+		User u2 = null;
 		
 		try {
 			ConcordServerInterface csi;
 			csi = (ConcordServerInterface) registry.lookup("CONCORDS");
 			u = csi.findUserById(1);
-			u1 = csi.findUserById(3);
+			u1 = csi.findUserById(2);
+			u2 = csi.findUserById(3);
 			
 			csi.removeBlock(u.getId(), u);
 			int block = csi.getConcord().getUm().getUser(1).getBlocks().size();
-			assertEquals(1, block);
+			assertEquals(2, block);
 			
 			csi.removeBlock(u.getId(), u1);
 			block = csi.getConcord().getUm().getUser(1).getBlocks().size();
+			assertEquals(1, block);
+			
+			cc.removeBlock(u2);
+			block = cc.getU().getBlocks().size();
 			assertEquals(0, block);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");
 		}
 	}
-
+//done
 	void testSetProfileData() {
 		User u = null;
 		try {
@@ -415,8 +434,10 @@ class ConcordClientServerTest {
 			assertEquals(null, u.getProfileData());
 			
 			csi.setProfileData(u.getId(), "bored");
-			
 			assertEquals("bored", u.getProfileData());
+			
+			cc.setProfileData("still bored");
+			assertEquals("still bored", u.getProfileData());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -435,7 +456,8 @@ class ConcordClientServerTest {
 			csi.setUsername(u.getId(), "iamsofriendly");
 			assertEquals("iamsofriendly", u.getUserName());
 			
-			csi.setUsername(u.getId(), "chan");
+			cc.setUsername("chan");
+			assertEquals("chan", u.getUserName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");
@@ -452,6 +474,9 @@ class ConcordClientServerTest {
 			
 			csi.setProfilePic(u.getId(), "fortnite.jpg");
 			assertEquals("fortnite.jpg", u.getUrlPic());
+			
+			cc.setProfilePic("fortknife.jpg");
+			assertEquals("fortknife.jpg", csi.getConcord().getUm().getUser(1).getUrlPic());
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");
@@ -480,6 +505,9 @@ class ConcordClientServerTest {
 			csi.sendPrivateMessage(m, dc);
 			assertEquals(1, dc.getMessages().size());
 			
+			cc.sendDCMessage(m, dc);
+			assertEquals(2, dc.getMessages().size());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");
@@ -496,7 +524,10 @@ class ConcordClientServerTest {
 			u = csi.findUserById(1);
 			
 			joe = csi.getConcord().getSm().getServer("joe");
-			c = joe.getChannel("general");
+			for (Channel c1: joe.getChannels()) {
+				System.out.println(c1.getName());
+			}
+			c = joe.getChannel("j");
 			assertEquals(0, c.getMessages().size());
 			
 			Message m = new Message();
@@ -505,6 +536,16 @@ class ConcordClientServerTest {
 			csi.sendChannelMessage(m, 1, joe, c);
 			assertEquals(1, c.getMessages().size());
 			
+			Level l = joe.findLevel(u);
+			assertEquals(3, l.getLvlProgress());
+			
+			cc.sendChannelMessage(m, joe, c);
+			assertEquals(2, l.getLvl());
+			assertEquals(0, l.getLvlProgress());
+			
+			cc.sendChannelMessage(m, joe, c);
+			assertEquals(2, l.getLvl());
+			assertEquals(2, l.getLvlProgress());
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");

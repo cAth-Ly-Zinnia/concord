@@ -141,7 +141,8 @@ implements ConcordServerInterface{
 	public void deleteChannel(int id, Server s, Channel channel) throws RemoteException {
 		u1 = c.getUm().getUser(id);
 		Role r = s.getRole(u1);
-		s.deleteChannel(r, channel);
+		Server s1 = c.getSm().getServer(s.getName());
+		s1.deleteChannel(r, channel);
 		this.makeChange();
 	}
 
@@ -208,8 +209,8 @@ implements ConcordServerInterface{
 		m.setUser(u1);
 		Server s1 = c.getSm().getServer(s.getName());
 		Channel c1 = s1.getChannel(channel.getName());
-		c1.sendMessage(m);
-		System.out.println("sending");
+		Level l = s1.findLevel(u1);
+		c1.sendMessage(m, l);
 		this.makeChange();
 	}
 

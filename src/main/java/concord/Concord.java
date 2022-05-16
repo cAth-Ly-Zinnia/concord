@@ -34,7 +34,12 @@ public class Concord implements Serializable {
 		try {
 			encoder=new XMLEncoder(new BufferedOutputStream(new FileOutputStream(SERIALIZED_FILE_NAME)));
 		} catch(FileNotFoundException fileNotFound) {
-			System.out.println("ERROR: While Creating or Opening the File concord.xml");
+			File con = new File(SERIALIZED_FILE_NAME);
+			try {
+				con.createNewFile();
+			} catch (IOException d) {
+				d.printStackTrace();
+			}
 		}
 		encoder.writeObject(this);
 		encoder.close();
@@ -47,12 +52,6 @@ public class Concord implements Serializable {
 		} catch (FileNotFoundException e) {
 			System.out.println("ERROR: File concord.xml not found");
 			System.out.println("Creating new Concord");
-			File con = new File(SERIALIZED_FILE_NAME);
-			try {
-				con.createNewFile();
-			} catch (IOException d) {
-				d.printStackTrace();
-			}
 			return new Concord();
 		}
 		Concord c = (Concord)decoder.readObject();

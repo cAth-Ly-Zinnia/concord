@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17">
+   <center>
+      <VBox prefHeight="200.0" prefWidth="295.0" BorderPane.alignment="CENTER">
+         <children>
+            <ListView prefHeight="183.0" prefWidth="100.0" />
+            <Button mnemonicParsing="false" onAction="#returnToChannel" text="Return" />
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

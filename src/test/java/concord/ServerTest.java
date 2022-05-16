@@ -60,14 +60,18 @@ class ServerTest {
 
 	@Test
 	void testChannel() {
-		//add and remove
-		ArrayList<Channel> channels = new ArrayList<Channel>();
-		Channel general = new Channel();
-		general.setName("general");
-		boolean createChannel = s.addChannel(s.getRoles().get(a), general);
+		//add and remove and start with general
+		assertEquals(1, s.getChannels().size());
+		assertEquals("general", s.getChannel("general").getName());
 		
-		channels.add(general);
-		assertEquals(channels, s.getChannels());
+		ArrayList<Channel> channels = new ArrayList<Channel>();
+		Channel joe = new Channel();
+		joe.setName("joe");
+		boolean createChannel = s.addChannel(s.getRoles().get(a), joe);
+		
+		channels.add(joe);
+		channels.add(s.getChannel("general"));
+		assertEquals(2, s.getChannels().size());
 		assertEquals(createChannel, true);
 	
 		Channel new1 = new Channel();

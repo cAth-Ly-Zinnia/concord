@@ -211,7 +211,7 @@ public class ConcordClient extends UnicastRemoteObject
 	
 	public void setProfilePic(String newUrlPic) {
 		try {
-			csi.setProfileData(uid, newUrlPic);
+			csi.setProfilePic(uid, newUrlPic);
 			 
 		} catch (RemoteException e) {
 			e.printStackTrace();

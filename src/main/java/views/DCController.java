@@ -7,10 +7,15 @@ import concord.DirectConversation;
 import concord.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import models.ConcordModel;
 import models.ViewTransitionModel;
 
@@ -19,6 +24,7 @@ public class DCController
 	ConcordModel concordModel;
 	ConcordClient client;
 	ViewTransitionModel model;
+	Stage stage;
 	
     @FXML
     //private ListView<DirectConversation> dcList;
@@ -48,6 +54,25 @@ public class DCController
 	{
 		return userNameTextField;
 	}
+	
+	//TODO when i have time
+	/*
+	@FXML
+	void addDC(ActionEvent event) {
+		stage = new Stage();
+    	stage.initModality(Modality.APPLICATION_MODAL);
+    	
+    	FXMLLoader loader = new FXMLLoader();
+    	loader.setLocation(ViewTransitionModel.class
+    			.getResource("../views/NewDCView.fxml"));
+    	BorderPane view = loader.load();
+		NewDcController cont = loader.getController();
+		
+		cont.setModel(stage, client);
+		Scene s = new Scene(view);
+		stage.setScene(s);
+		stage.show();
+	}*/
 	
     @FXML
     void onClickSettings(ActionEvent event) 

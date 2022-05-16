@@ -11,6 +11,7 @@ class ChannelTest {
 	void setUp(){
 		c = new Channel();
 		c.setName("general");
+		
 	}
 
 	@Test

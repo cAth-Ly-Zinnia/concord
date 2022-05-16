@@ -30,7 +30,7 @@ public class ServerManager implements Serializable{
 	
 	public Server getServer(String name){
 		for (Server s : servers) {
-			if (s.getName() == name) {
+			if (s.getName().equals(name)) {
 				return s;
 			}
 		}

@@ -11,6 +11,7 @@ public class Server implements Serializable{
 	 */
 	private static final long serialVersionUID = -5151351892689964862L;
 	private HashMap<User, Role> roles = new HashMap<User, Role>();
+	private HashMap<User, Level> levels = new HashMap<User, Level>();
 	private ArrayList<Channel> channels = new ArrayList<Channel>();
 	private ArrayList<Message> pins = new ArrayList<Message>();
 	private String name;
@@ -25,6 +26,8 @@ public class Server implements Serializable{
 			Channel general = new Channel();
 			general.setName("general");
 			channels.add(general);
+			Level l = new Level();
+			levels.put(u, l);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,6 +69,10 @@ public class Server implements Serializable{
 			}
 		}
 		return null;
+	}
+	
+	public Level findLevel(User u) {
+		return levels.get(u);
 	}
 	
 	public boolean contains(Channel that) {
@@ -113,7 +120,7 @@ public class Server implements Serializable{
 	
 	public Channel getChannel(String channel) {
 		for (Channel c : channels) {
-			if (c.getName() == channel) {
+			if (c.getName().equals(channel)) {
 				return c;
 			}
 		}
@@ -152,13 +159,16 @@ public class Server implements Serializable{
 	}
 	
 	public boolean deleteChannel(Role requester, Channel channel) {
-		if(requester.isAddChannel()) {
-			channels.remove(channel);
-			return true;
+		for(Channel c :this.getChannels()) {
+			if (c.getName().equals(channel.getName())) {
+				System.out.println("found channel");
+				if(requester.isRemoveChannel()) {
+					channels.remove(c);
+					return true;
+				}
+			}
 		}
-		else {
-			return false;
-		}
+		return false;
 	}
 	
 	public void addPin(Message msg){
@@ -172,9 +182,12 @@ public class Server implements Serializable{
 	public boolean addMember(User user) {
 		//figure out the roles here use hash map
 		Role role;
+		Level l;
 		try {
 			role = roleBuilder.createUserRole("member", user);
 			roles.put(user, role);
+			l = new Level();
+			levels.put(user, l);
 			return true;
 		} catch (Exception e) {
 			System.out.println("interesting...");
@@ -272,5 +285,4 @@ public class Server implements Serializable{
 	public void setRoleBuilder(RoleBuilder roleBuilder) {
 		this.roleBuilder = roleBuilder;
 	}
-
 }

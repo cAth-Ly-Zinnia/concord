@@ -27,7 +27,6 @@ public class RoleBuilder implements Serializable{
 	
 		}
 		else {
-			//TODO implements user role
 			throw new Exception("ya done goofed");
 		}
 	}

@@ -53,10 +53,19 @@ class ConcordTest {
 		
 		Server joe = c.getSm().getServer("joe");
 		Role admin = joe.getRole(u);
-		Channel gen = new Channel();
-		gen.setName("general");
-		joe.addChannel(admin, gen);
-		gen.sendMessage(m);
+		Channel c1 = new Channel();
+		c1.setName("joe");
+		joe.addChannel(admin, c1);
+		Level l = joe.findLevel(u);
+		c1.sendMessage(m, l);
+
+		assertEquals(1, l.getLvl());
+		assertEquals(3, l.getLvlProgress());
+		
+		c1.sendMessage(m, l);
+
+		assertEquals(2, l.getLvl());
+		assertEquals(0, l.getLvlProgress());
 		
 		c.serializeToXML();
 		Concord diskC = Concord.readXML();
