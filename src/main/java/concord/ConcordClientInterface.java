@@ -33,4 +33,7 @@ public interface ConcordClientInterface extends Remote{
 	public void deleteServer(Server s) throws RemoteException;
 	
 	public void notifyClient() throws RemoteException;
+	public void notifyChannels() throws RemoteException;
+	public void notifyChannelMsg() throws RemoteException;
+	public void notifyDcMsg() throws RemoteException;
 }

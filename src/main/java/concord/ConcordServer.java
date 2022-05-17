@@ -205,10 +205,10 @@ implements ConcordServerInterface{
 	@Override
 	public void sendChannelMessage(Message m, int id, Server s, Channel channel) throws RemoteException {
 		// getChannel and then sendMessage
-		u1 = c.getUm().getUser(id);
-		m.setUser(u1);
 		Server s1 = c.getSm().getServer(s.getName());
 		Channel c1 = s1.getChannel(channel.getName());
+		u1 = s1.findEquivalentUser(id);
+		m.setUser(u1);
 		Level l = s1.findLevel(u1);
 		c1.sendMessage(m, l);
 		this.makeChange();

@@ -285,4 +285,21 @@ public class Server implements Serializable{
 	public void setRoleBuilder(RoleBuilder roleBuilder) {
 		this.roleBuilder = roleBuilder;
 	}
+
+	public HashMap<User, Level> getLevels() {
+		// TODO Auto-generated method stub
+		return levels;
+	}
+
+	/**
+	 * @param levels the levels to set
+	 */
+	public void setLevels(HashMap<User, Level> levels) {
+		this.levels = levels;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
 }

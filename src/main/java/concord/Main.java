@@ -44,6 +44,7 @@ public class Main extends Application{
 		vm.showLogin();
 		
 		Scene s = new Scene(view);
+		s.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
 		stage.setScene(s);
 		stage.show();
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {

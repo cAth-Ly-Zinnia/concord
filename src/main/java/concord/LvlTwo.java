@@ -1,7 +1,13 @@
 package concord;
 
-public class LvlTwo implements LvlState {
+import java.io.Serializable;
 
+public class LvlTwo implements LvlState, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3351011157063001508L;
 	int lvl;
 	int progress;
 	
@@ -10,6 +16,34 @@ public class LvlTwo implements LvlState {
 		progress = 0;
 	}
 	
+	/**
+	 * @return the lvl
+	 */
+	public int getLvl() {
+		return lvl;
+	}
+
+	/**
+	 * @param lvl the lvl to set
+	 */
+	public void setLvl(int lvl) {
+		this.lvl = lvl;
+	}
+
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	/**
+	 * @param progress the progress to set
+	 */
+	public void setProgress(int progress) {
+		this.progress = progress;
+	}
+
 	@Override
 	public int getLevelStatus() {
 		return lvl;

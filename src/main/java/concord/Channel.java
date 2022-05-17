@@ -7,6 +7,8 @@ public class Channel implements Serializable{
 	/**
 	 * 
 	 */
+	
+	//TODO change toString on all subjects on the 
 	private static final long serialVersionUID = -3171061004617184614L;
 	private String name;
 	private ArrayList<Message> messages = new ArrayList<Message>();
@@ -64,6 +66,11 @@ public class Channel implements Serializable{
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
 
 }

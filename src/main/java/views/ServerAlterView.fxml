@@ -10,16 +10,17 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ServerController">
+<BorderPane prefHeight="720.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.ServerController">
    <left>
       <VBox prefHeight="400.0" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane prefHeight="340.0" prefWidth="150.0">
+            <ScrollPane prefHeight="676.0" prefWidth="150.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="325.0" prefWidth="150.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="686.0" prefWidth="150.0">
                      <children>
-                        <ListView fx:id="channelListView" onMouseClicked="#channelListViewClicked" prefHeight="345.0" prefWidth="150.0" />
+                        <ListView fx:id="channelListView" onMouseClicked="#channelListViewClicked" prefHeight="679.0" prefWidth="150.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
               </content>
@@ -38,7 +39,10 @@
                   <HBox prefHeight="38.0" prefWidth="150.0">
                      <children>
                         <Label id="usernameLabel" fx:id="userNameLabel" text="Username" />
-                        <Button id="btnSettings" mnemonicParsing="false" onAction="#btnSettingsClicked" text="Settings" />
+                        <Button id="btnSettings" mnemonicParsing="false" onAction="#btnSettingsClicked" text="Settings">
+                           <HBox.margin>
+                              <Insets left="30.0" />
+                           </HBox.margin></Button>
                      </children>
                   </HBox>
                </children>
@@ -55,21 +59,24 @@
                   <Button mnemonicParsing="false" onAction="#btnPinsClicked" text="Pins" />
                </children>
             </HBox>
-            <ScrollPane prefHeight="350.0" prefWidth="350.0">
+            <ScrollPane prefHeight="641.0" prefWidth="930.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="325.0" prefWidth="450.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="629.0" prefWidth="912.0">
                      <children>
-                        <ListView fx:id="messageListView" prefHeight="325.0" prefWidth="450.0" />
+                        <ListView fx:id="messageListView" prefHeight="325.0" prefWidth="450.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
               </content>
             </ScrollPane>
             <HBox>
                <children>
-                  <TextField fx:id="messageTextField" onAction="#sendMessage" prefHeight="26.0" prefWidth="308.0" />
-                  <Button mnemonicParsing="false" text="Bold" />
-                  <Button mnemonicParsing="false" text="Highlight" />
-                  <Button mnemonicParsing="false" text="Pin" />
+                  <TextField fx:id="messageTextField" onAction="#sendMessage" prefHeight="26.0" prefWidth="624.0" />
+                  <Button mnemonicParsing="false" onAction="#boldMsg" text="Bold">
+                     <font>
+                        <Font name="System Bold Italic" size="13.0" />
+                     </font></Button>
+                  <Button mnemonicParsing="false" onAction="#highlightMsg" text="Highlight" />
+                  <Button mnemonicParsing="false" onAction="#pinMsg" text="Pin" />
                </children>
             </HBox>
          </children>
@@ -78,11 +85,11 @@
    <right>
       <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane prefHeight="400.0" prefWidth="200.0">
+            <ScrollPane prefHeight="719.0" prefWidth="100.0">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="100.0">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="695.0" prefWidth="100.0">
                      <children>
-                        <ListView fx:id="usersListView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ListView fx:id="usersListView" prefHeight="695.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
               </content>

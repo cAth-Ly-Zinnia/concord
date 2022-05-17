@@ -1,0 +1,26 @@
+.root{
+    -fx-font-size: 13pt;
+    -fx-font-family: "Tahoma";
+    -fx-base: #23272A;
+    -fx-background: #23272A;
+    -fx-focus-color: #23272A;
+    -fx-image: white;
+}
+
+.button1{
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 5;
+}
+
+.button2{
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 5;
+}
+
+.slider{
+    -fx-border-color: white;
+    -fx-border-style: dashed;
+    -fx-border-width: 2;
+}

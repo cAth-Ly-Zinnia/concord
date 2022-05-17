@@ -25,6 +25,7 @@ public class DCController
 	ConcordClient client;
 	ViewTransitionModel model;
 	Stage stage;
+	DirectConversation dc;
 	
     @FXML
     //private ListView<DirectConversation> dcList;
@@ -39,14 +40,14 @@ public class DCController
     @FXML
     private Label userNameTextField;
 	
-	public void setModel(ViewTransitionModel model, ConcordModel m, ConcordClient c)
+	public void setModel(ViewTransitionModel model, ConcordModel m, ConcordClient c) throws RemoteException
 	{
 		this.model = model;
 		concordModel = m;
 		client = c;
 		
+		concordModel.setDcs(c.getDcById());
 		dcListView.setItems(concordModel.getDcs());
-		dcMessageListView.setItems(concordModel.getDcsMessages());
 		userNameTextField.setText(client.getU().getUserName());
 	}
 	
@@ -56,9 +57,10 @@ public class DCController
 	}
 	
 	//TODO when i have time
-	/*
+	
 	@FXML
 	void addDC(ActionEvent event) {
+		/*
 		stage = new Stage();
     	stage.initModality(Modality.APPLICATION_MODAL);
     	
@@ -72,7 +74,8 @@ public class DCController
 		Scene s = new Scene(view);
 		stage.setScene(s);
 		stage.show();
-	}*/
+		*/
+	}
 	
     @FXML
     void onClickSettings(ActionEvent event) 
@@ -83,7 +86,12 @@ public class DCController
     @FXML
     void onDcListViewClicked(MouseEvent event) 
     {
-    	
+    	dc = dcListView.getSelectionModel().getSelectedItem();
+    	if (dc != null) {
+    		concordModel.setDcsMessages(dc.getMessages());
+    		dcMessageListView.setItems(concordModel.getDcsMessages());
+    	}
+   
     }
     
     @FXML

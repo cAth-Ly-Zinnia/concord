@@ -103,26 +103,23 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 	public void showServer(Server s) throws RemoteException
 	{
 		concordModel.getChannels().clear();
-		if (concordModel.getChannels().size() == 0)
+		
+		ArrayList<Channel> channelList;
+		channelList = s.getChannels();
+		for (Channel c: channelList)
 		{
-			ArrayList<Channel> channelList;
-			channelList = s.getChannels();
-			for (Channel c: channelList)
-			{
-				concordModel.getChannels().add(c);
-			}
+			concordModel.getChannels().add(c);
 		}
 		
 		concordModel.getUsers().clear();
-		if (concordModel.getUsers().size() == 0)
+		
+		ArrayList<User> userList;
+		userList = s.getUsers();
+		for (User u: userList)
 		{
-			ArrayList<User> userList;
-			userList = s.getUsers();
-			for (User u: userList)
-			{
-				concordModel.getUsers().add(u);
-			}
+			concordModel.getUsers().add(u);
 		}
+		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
 				.getResource("../views/ServerAlterView.fxml"));

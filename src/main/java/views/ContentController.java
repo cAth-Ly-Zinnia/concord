@@ -74,6 +74,7 @@ public class ContentController
     	if(s != null) {
 	    	System.out.println(s.getName());
 	    	try {
+	    		concordModel.getSerMessages().clear();
 				model.showServer(s);
 			} catch (RemoteException e) {
 				e.printStackTrace();

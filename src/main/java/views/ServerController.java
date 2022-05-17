@@ -78,9 +78,21 @@ public class ServerController
     }
 	
     @FXML
-    void btnPinsClicked(ActionEvent event) 
+    void btnPinsClicked(ActionEvent event) throws Exception 
     {
-
+    	stage = new Stage();
+    	stage.initModality(Modality.APPLICATION_MODAL);
+    	
+    	FXMLLoader loader = new FXMLLoader();
+    	loader.setLocation(ViewTransitionModel.class
+    			.getResource("../views/pinView.fxml"));
+    	BorderPane view = loader.load();
+		PinController cont = loader.getController();
+		
+		cont.setModel(stage, client, concordModel, server);
+		Scene s = new Scene(view);
+		stage.setScene(s);
+		stage.show();
     }
 
     @FXML
@@ -92,12 +104,28 @@ public class ServerController
     @FXML
     void channelListViewClicked(MouseEvent event) 
     {
+    	concordModel.getSerMessages().clear();
     	c = channelListView.getSelectionModel().getSelectedItem();
-    	System.out.println("grabs: " + c);
-    	for(Message m: c.getMessages()) {
-    		concordModel.getSerMessages().add(m);
+    	if (c != null) {
+    		concordModel.setSerMessages(c.getMessages());
+    		messageListView.setItems(concordModel.getSerMessages());
     	}
-    	messageListView.setItems(concordModel.getSerMessages());
+    	System.out.println("grabs: " + c);
+    }
+    
+    @FXML
+    void highlightMsg(ActionEvent event) {
+
+    }
+
+    @FXML
+    void pinMsg(ActionEvent event) {
+
+    }
+    
+    @FXML
+    void boldMsg(ActionEvent event) {
+
     }
     
     @FXML
@@ -109,6 +137,9 @@ public class ServerController
     		System.out.println("sends: " + content);
     		try {
 				client.sendChannelMessage(msg, server, c);
+				model.showContent();
+				
+				
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

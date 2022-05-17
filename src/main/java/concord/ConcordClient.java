@@ -43,7 +43,7 @@ public class ConcordClient extends UnicastRemoteObject
 	 * 
 	 */
 	public void notifyClient() throws RemoteException{
-		System.out.println("there has been changes");
+		System.out.println("There have been changes.");
 		Platform.runLater(()->{
 			try {
 				model.reset(csi.getConcord());
@@ -52,6 +52,46 @@ public class ConcordClient extends UnicastRemoteObject
 			}
 		});
 
+	}
+	
+	@Override
+	public void notifyChannels() throws RemoteException {
+		System.out.println("There have been changes.");
+		Platform.runLater(()->{
+			try {
+				//grab server and channel
+				model.reset(csi.getConcord());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@Override
+	public void notifyChannelMsg() throws RemoteException {
+		System.out.println("There have been changes.");
+		Platform.runLater(()->{
+			try {
+				//grab server and channel and msgs
+				model.reset(csi.getConcord());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
+	@Override
+	public void notifyDcMsg() throws RemoteException {
+		System.out.println("There have been changes.");
+		Platform.runLater(()->{
+			try {
+				//grab user and their msgs
+				model.reset(csi.getConcord());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		});
+		
 	}
 	
 	public void verify(String userName, String pw) {

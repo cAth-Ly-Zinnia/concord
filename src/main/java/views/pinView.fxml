@@ -5,12 +5,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17">
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.PinController">
    <center>
       <VBox prefHeight="200.0" prefWidth="295.0" BorderPane.alignment="CENTER">
          <children>
-            <ListView prefHeight="183.0" prefWidth="100.0" />
+            <ListView fx:id="pinListView" prefHeight="183.0" prefWidth="100.0" />
             <Button mnemonicParsing="false" onAction="#returnToChannel" text="Return" />
          </children>
       </VBox>
