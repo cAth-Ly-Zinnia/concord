@@ -35,6 +35,9 @@ public class Main extends Application{
 		model = new ConcordModel();
 		FXMLLoader loader = new FXMLLoader();
 		client = new ConcordClient(model);
+		
+		cs.addObserver(client);
+		
 		loader.setLocation(Main.class.getResource("../views/MainView.fxml"));
 		BorderPane view = loader.load();
 		ViewTransitionModel vm = new ViewTransitionModel(view, client, model);

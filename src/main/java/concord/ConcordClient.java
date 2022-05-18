@@ -58,7 +58,6 @@ public class ConcordClient extends UnicastRemoteObject
 
 	}
 	
-	@Override
 	public void notifyChannels() throws RemoteException {
 		System.out.println("There have been changes.");
 		Platform.runLater(()->{
@@ -71,7 +70,6 @@ public class ConcordClient extends UnicastRemoteObject
 		});
 	}
 	
-	@Override
 	public void notifyServers() throws RemoteException {
 		System.out.println("There have been changes.");
 		Platform.runLater(()->{
@@ -84,7 +82,6 @@ public class ConcordClient extends UnicastRemoteObject
 		});
 	}
 	
-	@Override
 	public void notifyServer() throws RemoteException{
 		System.out.println("There have been changes.");
 		Platform.runLater(()->{
@@ -97,7 +94,6 @@ public class ConcordClient extends UnicastRemoteObject
 		});
 	}
 	
-	@Override
 	public void notifyChannelMsg() throws RemoteException {
 		System.out.println("There have been changes.");
 		Platform.runLater(()->{
@@ -110,7 +106,6 @@ public class ConcordClient extends UnicastRemoteObject
 		});
 	}
 
-	@Override
 	public void notifyDcMsg() throws RemoteException {
 		System.out.println("There have been changes.");
 		Platform.runLater(()->{

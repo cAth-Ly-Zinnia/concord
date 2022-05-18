@@ -19,7 +19,7 @@ public class ServerCellController
 		Server s = model.getItem();
 		if (s != null)
 		{
-			System.out.println("a" + s.getName());
+			//System.out.println("a" + s.getName());
 			serverNameLabel.textProperty().set(s.getName());
 			//serverNameLabel.textProperty().bindBidirectional(new SimpleStringProperty(model.getItem().getServerName()));
 		}
