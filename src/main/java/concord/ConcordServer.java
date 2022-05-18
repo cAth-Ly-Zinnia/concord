@@ -128,6 +128,8 @@ implements ConcordServerInterface{
 			dc.addUser(in);
 		}
 		this.sendPrivateMessage(m, dc);
+		this.makeChange();
+		this.notifyDcMsg();
 	}
 
 	@Override
@@ -363,6 +365,7 @@ implements ConcordServerInterface{
 		users.add(u1);
 		users.add(u2);
 		c.getDcm().createDC(users);
+		this.makeChange();
 	}
 
 	@Override

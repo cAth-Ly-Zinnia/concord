@@ -16,11 +16,11 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="667.0" prefWidth="178.0">
                      <children>
-                        <Button id="addServerButt" layoutX="-6.0" layoutY="641.0" mnemonicParsing="false" onAction="#addServerClicked" prefHeight="26.0" prefWidth="83.0" text="Add Server" />
-                        <ListView id="svListView" fx:id="serverListView" layoutY="62.0" onMouseClicked="#serverListViewClicked" prefHeight="569.0" prefWidth="178.0" AnchorPane.bottomAnchor="33.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="62.0" />
+                        <Button id="addServerButt" layoutX="-6.0" layoutY="641.0" mnemonicParsing="false" onAction="#addServerClicked" prefHeight="26.0" prefWidth="152.0" text="Add Server" />
+                        <ListView id="svListView" fx:id="serverListView" layoutY="45.0" onMouseClicked="#serverListViewClicked" prefHeight="595.0" prefWidth="178.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="45.0" />
                         <Button id="homeButton" layoutX="14.0" layoutY="2.0" mnemonicParsing="false" onAction="#onClickHome" prefHeight="26.0" prefWidth="111.0" text="Home">
                            <font>
-                              <Font size="27.0" />
+                              <Font size="20.0" />
                            </font></Button>
                      </children>
                   </AnchorPane>
