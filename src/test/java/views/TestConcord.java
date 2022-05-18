@@ -41,7 +41,7 @@ import views.DCController;
 import views.MainController;
 
 @ExtendWith(ApplicationExtension.class)
-public class TestLogin
+public class TestConcord
 {
 	ConcordServer cs;
 	Registry registry;
@@ -58,7 +58,6 @@ public class TestLogin
 		
 		cc = new ConcordClient();
 		model = new ConcordModel();
-		cs.addObserver(cc);
 		
 		UserManager UM = cs.getConcord().getUm();
 		UM.createUser("a", "abc", "123");
@@ -99,6 +98,8 @@ public class TestLogin
 		gen.setName("general");
 		SM.getServer("Test1").addChannel(admin, gen);
 		
+		cs.addObserver(cc);
+		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class.getResource("../views/MainView.fxml"));
 		try
@@ -136,6 +137,18 @@ public class TestLogin
 		
 	}
 	
+	private void selectDc(FxRobot robot, int index)
+	{
+		Platform.runLater(()->{
+			@SuppressWarnings("unchecked")
+			ListView<DirectConversation> dcList = (ListView<DirectConversation>) robot.lookup("#dcList")
+                    .queryAll().iterator().next();
+			dcList.scrollTo(index);
+			dcList.getSelectionModel().clearAndSelect(index);
+		});
+		
+	}
+	
 	private void selectChannel(FxRobot robot, int index)
 	{
 		Platform.runLater(()->{
@@ -148,6 +161,15 @@ public class TestLogin
 		
 	}
 
+	private void selectDcMsg(FxRobot robot, int index) {
+		Platform.runLater(()->{
+			@SuppressWarnings("unchecked")
+			ListView<Message> dcMsgList = (ListView<Message>) robot.lookup("#dcMsgList")
+                    .queryAll().iterator().next();
+			dcMsgList.scrollTo(index);
+			dcMsgList.getSelectionModel().clearAndSelect(index);
+		});
+	}
 	@Test
 	public void testLogin(FxRobot robot) throws RemoteException
 	{
@@ -224,6 +246,8 @@ public class TestLogin
 		robot.write("hello");
 		robot.clickOn("#sendChanMsg");
 		
+		robot.clickOn("#homeButton");
+		
 		selectServer(robot, 3);
 		try
 		{
@@ -246,6 +270,8 @@ public class TestLogin
 		robot.clickOn("#channelTxtField");
 		robot.write("pinned");
 		robot.clickOn("#pinButt");
+		
+		robot.clickOn("#homeButton");
 		
 		selectServer(robot, 3);
 		try
@@ -274,13 +300,17 @@ public class TestLogin
 		}
 		testChannels(user_1, 2, "joe");
 		
+		robot.clickOn("#inviteButt");
+		robot.clickOn("#userButt");
+		robot.clickOn("#c");
+		robot.clickOn("#comfirmButton");
+		
 		robot.clickOn("#btnSettings");
 		robot.clickOn("#btnUserInfo");
 		robot.clickOn("#btnBlockList");
 		robot.clickOn("#btnBack");
 		
 		robot.clickOn("#buttonLogout");
-		
 		
 		robot.clickOn("#userNameTextField");
 		robot.write("b");
@@ -298,7 +328,6 @@ public class TestLogin
 		
 		Assertions.assertThat(robot.lookup("#usernameLabel")
 				.queryAs(Label.class)).hasText(user_2.getUserName());
-		//testUserName(user_2);
 		
 		robot.clickOn("#btnSettings");
 		robot.clickOn("#btnUserInfo");
@@ -307,8 +336,193 @@ public class TestLogin
 		
 		
 		robot.clickOn("#buttonLogout");
+		
+		robot.clickOn("#userNameTextField");
+		robot.write("c");
+		
+		robot.clickOn("#passwordTextField");
+		robot.write("aaa");
+		
+		robot.clickOn("#loginSubmitButton");
+		testServer(user_3, 0);
+		
+		testDc(user_3);
+		
+		selectDc(robot, 0);
+		
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#msgTxtFld");
+		robot.write("ty");
+		robot.clickOn("#sendButt");
+		
+		robot.clickOn("#homeButton");
+		
+		testDc(user_3);
+		testMessage(user_3);
+	
+		selectDc(robot, 0);
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		selectDcMsg(robot, 0);
+		
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#homeButton");
+		
+		selectDc(robot, 0);
+		
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		testServer(user_3, 1);
+		
+		selectServer(robot, 0);
+		
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+			
+		selectChannel(robot, 0);
+		
+		robot.clickOn("#channelTxtField");
+		robot.write("hi");
+		robot.clickOn("#sendChanMsg");
+		
+		robot.clickOn("#homeButton");
+		
+		selectServer(robot, 0);
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+			
+		selectChannel(robot, 0);
+		
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#channelTxtField");
+		robot.write("not pinned");
+		robot.clickOn("#pinButt");
+		
+		robot.clickOn("#homeButton");
+		
+		selectServer(robot, 0);
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#pinScreen");
+		testPin(1, "joe");
+		robot.clickOn("#backBtn");
+		
+		selectServer(robot, 0);
+		
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		selectChannel(robot, 0);
+		
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#channelTxtField");
+		robot.write("not pinned");
+		robot.clickOn("#sendChanMsg");
+		
+		robot.clickOn("#channelTxtField");
+		robot.write("not pinned");
+		robot.clickOn("#sendChanMsg");
+		
+		robot.clickOn("#channelTxtField");
+		robot.write("not pinned");
+		robot.clickOn("#sendChanMsg");
+		
+		robot.clickOn("#homeButton");
+		
+		selectServer(robot, 0);
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		selectChannel(robot, 0);
+		
+		robot.clickOn("#channelTxtField");
+		robot.write("oh i lvled up!");
+		robot.clickOn("#pinButt");
+		
+		robot.clickOn("#homeButton");
+		
+		selectServer(robot, 0);
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#pinScreen");
+		testPin(2, "joe");
+		robot.clickOn("#backBtn");
+		
+		robot.clickOn("#buttonLogout");
 	}
 	
+
 	private void testPin(int amt, String server) {
 		assertEquals(amt, model.getPinMessages().size());
 		Server test = null;

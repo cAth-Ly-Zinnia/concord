@@ -70,12 +70,25 @@ public class ConcordClient extends UnicastRemoteObject
 		});
 	}
 	
+	public void notifyPins() throws RemoteException {
+		System.out.println("There have been changes.");
+		Platform.runLater(()->{
+			try {
+				//grab server and channel
+				model.setPinMessages(csi.getConcord().getSm().getServer(server.getName()).getPins());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+	
 	public void notifyServers() throws RemoteException {
 		System.out.println("There have been changes.");
 		Platform.runLater(()->{
 			try {
 				//grab server and channel
-				model.setServers(csi.getConcord().getSm().getServers());
+				User u1 = csi.findUserById(uid);
+				model.setServers(csi.getConcord().getSm().getUserServers(u1));
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -111,8 +124,10 @@ public class ConcordClient extends UnicastRemoteObject
 		Platform.runLater(()->{
 			try {
 				//grab user and their msgs
-				model.setDcsMessages(csi.getConcord().getDcm()
+				if(directConversation != null) {
+					model.setDcsMessages(csi.getConcord().getDcm()
 						.findDc(directConversation.getName()).getMessages());
+				}
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -158,10 +173,10 @@ public class ConcordClient extends UnicastRemoteObject
 		}
 	}
 	
-	public void accept(User member, Server s) {
+	public void accept(Server s) {
 		try {
 			server = s;
-			csi.accept(member, s);
+			csi.accept(uid, s);
 			 
 		} catch (RemoteException e) {
 			e.printStackTrace();

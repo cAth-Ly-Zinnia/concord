@@ -78,6 +78,12 @@ implements ConcordServerInterface{
 		
 	}
 	
+	private void notifyPins() throws RemoteException {
+		for (ConcordClientInterface c : clients) {
+			c.notifyPins();
+		}
+	}
+	
 	public void makeChange() throws RemoteException {
 		notifyClients();
 	}
@@ -111,16 +117,26 @@ implements ConcordServerInterface{
 	public void invite(int id, User in, Server s) throws RemoteException {
 		// notify user of the server invite
 		u1 = c.getUm().getUser(id);
-		Message m = new Message();
+		Invite m = new Invite(s);
 		m.setUser(u1);
-		m.setMessage("Invite sent for:" + s);	
+		ArrayList<User> users = new ArrayList<User>();
+		users.add(u1); users.add(in);
+		DirectConversation dc = c.getDcm().findDc(users);
+		if(dc == null) {
+			dc = new DirectConversation();
+			dc.addUser(u1);
+			dc.addUser(in);
+		}
+		this.sendPrivateMessage(m, dc);
 	}
 
 	@Override
-	public void accept(User member, Server s) throws RemoteException {
+	public void accept(int id, Server s) throws RemoteException {
 		// TODO Auto-generated method stub
-		s.addMember(member);
-		this.notifyServer();
+		u1 = c.getUm().getUser(id);
+		Server s1 = c.getSm().getServer(s.getName());
+		s1.addMember(u1);
+		this.notifyServers();
 	}
 
 	@Override
@@ -227,15 +243,17 @@ implements ConcordServerInterface{
 		// TODO Auto-generated method stub
 		System.out.println(dc);
 		DirectConversation dc1 = c.getDcm().findDc(dc.getName());
-		dc1.sendMessage(m);
-		this.notifyDcMsg();	
+		if (dc1 != null) {
+			dc1.sendMessage(m);
+			this.notifyDcMsg();
+		}
 	}
 
 	@Override
 	public void sendChannelMessage(Message m, int id, Server s, Channel channel) throws RemoteException {
 		// getChannel and then sendMessage
 		Server s1 = c.getSm().getServer(s.getName());
-		System.out.println(channel);
+		//System.out.println(channel);
 		Channel c1 = s1.getChannel(channel.getName());
 		u1 = s1.findEquivalentUser(id);
 		m.setUser(u1);
@@ -249,6 +267,7 @@ implements ConcordServerInterface{
 	public void addPin(int id, Server s, Message message) throws RemoteException {
 		Server s1 = c.getSm().getServer(s.getName());
 		u1 = s1.findEquivalentUser(id);
+		message.setUser(u1);
 		if (s1.findLevel(u1).getLvl() == 3) {
 			s1.addPin(message);
 			System.out.println("Level 3");
@@ -256,8 +275,9 @@ implements ConcordServerInterface{
 		else {
 			System.out.println("Not Level 3");
 		}
-		this.makeChange();
+		this.notifyPins();
 	}
+
 
 	@Override
 	public void unPin(Server s, Message message) throws RemoteException {

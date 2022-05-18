@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import concord.ConcordClient;
 import concord.ConcordServer;
 import concord.DirectConversation;
+import concord.Invite;
 import concord.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +30,7 @@ public class DCController
 	ViewTransitionModel model;
 	Stage stage;
 	DirectConversation dc;
+	Message m;
 	
     @FXML
     //private ListView<DirectConversation> dcList;
@@ -42,6 +44,9 @@ public class DCController
     
     @FXML
     private Label userNameTextField;
+    
+    @FXML
+    private Label dcLabelName;
 	
 	public void setModel(ViewTransitionModel model, ConcordModel m, ConcordClient c) throws RemoteException
 	{
@@ -54,6 +59,8 @@ public class DCController
 		dcListView.getSelectionModel().selectedItemProperty()
 		.addListener((e)->{onSelectedItem();});
 		userNameTextField.setText(client.getU().getUserName());
+		dcMessageListView.getSelectionModel().selectedItemProperty()
+		.addListener((e)->{onSelectedMsg();});
 	}
 	
 	public Label getUserNameLabel()
@@ -65,6 +72,7 @@ public class DCController
 		dc = dcListView.getSelectionModel().getSelectedItem();
     	if(dc != null) {
 	    	System.out.println(dc.getName());
+	    	dcLabelName.setText(dc.getName());
 	    	try {
 	    		concordModel.getDcsMessages().clear();
 	    		concordModel.setDcsMessages(dc.getMessages());
@@ -73,6 +81,23 @@ public class DCController
 				e.printStackTrace();
 			}
     	}
+		
+	}
+	
+	private void onSelectedMsg() {
+		m = dcMessageListView.getSelectionModel().getSelectedItem();
+		if (m != null) {
+			String inv = "An invite has been sent to join a server. Click here to join!";
+	    	if((m.getContent().equals(inv)) && (m.getUser().getId() != client.getU().getId())) {
+	    		Invite w = (Invite) m;
+		    	System.out.println(dc.getName());
+		    	try {
+		    		client.accept(w.getServer());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+	    	}
+		}
 		
 	}
 	
@@ -119,6 +144,11 @@ public class DCController
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    @FXML
+    void sendMsg(ActionEvent event) {
+    	onEnterPressed(event);
     }
 
 }

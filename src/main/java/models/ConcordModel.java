@@ -135,6 +135,7 @@ public class ConcordModel
 	}
 
 	public void setPinMessages(ArrayList<Message> pm) {
+		pinMessages.clear();
 		for (Message m : pm) {
 			pinMessages.add(m);
 		}

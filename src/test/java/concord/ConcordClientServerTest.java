@@ -74,8 +74,8 @@ class ConcordClientServerTest {
 		testSetUsername();
 		testSetProfilePic();
 		testSendPrivateMessage();
-		testSendChannelMessage();
 		testAccept();
+		testSendChannelMessage();
 	}
 	
 	
@@ -158,7 +158,7 @@ class ConcordClientServerTest {
 			u = csi.findUserById(2);
 			assertNull(joe.getRole(u));
 			
-			csi.accept(u, joe);
+			csi.accept(u.getId(), joe);
 			assertNotNull(joe.getRole(u));
 			
 			u1 = cc.findUserById(1);
@@ -166,10 +166,15 @@ class ConcordClientServerTest {
 			Role r = joe.getRole(u);
 			assertEquals(null , r);
 			
-			cc.accept(u, joe);
+			csi.accept(u.getId(), joe);
 			assertNotNull(joe.getRole(u));
 			
 			cc.kick(u, joe);
+			
+			cc.verify("tako", "yaki");
+			
+			cc.accept(joe);
+			assertNotNull(joe.getRole(u));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -522,6 +527,7 @@ class ConcordClientServerTest {
 			ConcordServerInterface csi;
 			csi = (ConcordServerInterface) registry.lookup("CONCORDS");
 			u = csi.findUserById(1);
+			User u1 = csi.findUserById(2);
 			
 			joe = csi.getConcord().getSm().getServer("joe");
 			for (Channel c1: joe.getChannels()) {
@@ -533,19 +539,24 @@ class ConcordClientServerTest {
 			Message m = new Message();
 			m.setContent("hello");
 			
-			csi.sendChannelMessage(m, 1, joe, c);
-			assertEquals(1, c.getMessages().size());
-			
 			Level l = joe.findLevel(u);
+			assertEquals(3, l.getLvl());
+
+			csi.sendChannelMessage(m, 2, joe, c);
+			assertEquals(1, c.getMessages().size());
+			l = joe.findLevel(u1);
 			assertEquals(3, l.getLvlProgress());
 			
+			cc.verify("chan", "takrak");
 			cc.sendChannelMessage(m, joe, c);
+			l = joe.findLevel(u);
+			assertEquals(3, l.getLvl());
+			assertEquals(1, l.getLvlProgress());
+			
+			l = joe.findLevel(u1);
+			csi.sendChannelMessage(m, 2, joe, c);
 			assertEquals(2, l.getLvl());
 			assertEquals(0, l.getLvlProgress());
-			
-			cc.sendChannelMessage(m, joe, c);
-			assertEquals(2, l.getLvl());
-			assertEquals(2, l.getLvlProgress());
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");

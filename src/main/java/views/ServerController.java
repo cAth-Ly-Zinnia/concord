@@ -1,5 +1,6 @@
 package views;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 import concord.Channel;
@@ -66,6 +67,7 @@ public class ServerController
 		c = channelListView.getSelectionModel().getSelectedItem();
     	if(c != null) {
 	    	System.out.println(c.getName());
+	    	channelNameLabel.setText(c.getName());
 	    	try {
 	    		concordModel.getSerMessages().clear();
 	    		concordModel.setSerMessages(c.getMessages());
@@ -111,7 +113,24 @@ public class ServerController
 		stage.setScene(s);
 		stage.show();
     }
-
+    
+    @FXML
+    void inviteClicked(ActionEvent event) throws Exception {
+    	stage = new Stage();
+    	stage.initModality(Modality.APPLICATION_MODAL);
+    	
+    	FXMLLoader loader = new FXMLLoader();
+    	loader.setLocation(ViewTransitionModel.class
+    			.getResource("../views/NewInviteView.fxml"));
+    	BorderPane view = loader.load();
+		InviteController cont = loader.getController();
+		
+		cont.setModel(stage, client, server);
+		Scene s = new Scene(view);
+		stage.setScene(s);
+		stage.show();
+    }
+    
     @FXML
     void btnSettingsClicked(ActionEvent event) 
     {
@@ -146,9 +165,6 @@ public class ServerController
     		try {
     			client.addPin(server, msg);
     			client.sendChannelMessage(msg, server, c);
-				model.showContent();
-				
-				
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}

@@ -72,4 +72,20 @@ public class DirectConversationManager implements Serializable{
 		}
 		return false;
 	}
+	public DirectConversation findDc(ArrayList<User> u) {
+		boolean exist = true;
+		for (DirectConversation dc: dcs) {
+			for(User user: u) {
+				if(!dc.contains(user)) {
+					exist = false;
+				}
+			}
+			if(exist) {
+				return dc;
+			}
+			
+		}
+		return null;
+		
+	}
 }

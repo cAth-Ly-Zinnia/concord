@@ -11,24 +11,24 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.ConcordModel;
 
-public class NewDcController {
+public class InviteController {
 	ConcordClient client;
 	Stage stage;
 	ConcordModel model;
-	DirectConversation dc;
+	Server server;
 	User userTarget;
 	
 	
 	@FXML
     private MenuButton userMenu;
 	
-	public void setModel(Stage s, ConcordClient c) {
+	public void setModel(Stage s, ConcordClient c, Server s1) {
 		stage = s;
 		client = c;
+		server = s1;
 	
 		MenuItem item = new MenuItem("Find User");
 		
@@ -36,7 +36,7 @@ public class NewDcController {
 		
 		try {
 			for(User u : client.getUsers()) {
-				if(u.getId() != client.getU().getId()) {
+				if(server.findEquivalentUser(u.getId()) == null) {
 					item = new MenuItem(u.getUserName());
 					item.setId(u.getUserName());
 					item.setOnAction(new EventHandler<ActionEvent>() {
@@ -57,7 +57,7 @@ public class NewDcController {
 	}
 	
 	public void confirm() throws RemoteException {
-		client.addDc(userTarget);
+		client.invite(userTarget, server);
     	stage.close();
 	}
     @FXML
@@ -69,5 +69,4 @@ public class NewDcController {
     void onClickConfirm(ActionEvent event) throws RemoteException {
     	confirm();
     }
-
 }

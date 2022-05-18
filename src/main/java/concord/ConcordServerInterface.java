@@ -23,7 +23,7 @@ public interface ConcordServerInterface extends Remote{
 	public void invite(int id, User in, Server s) throws RemoteException;
 	
 	//allows user to accept invite
-	public void accept(User member, Server s) throws RemoteException;
+	public void accept(int id, Server s) throws RemoteException;
 	
 	//kicks user from server
 	public void kick(int id, User user, Server s) throws RemoteException;

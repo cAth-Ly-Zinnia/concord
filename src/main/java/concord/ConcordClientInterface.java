@@ -10,7 +10,7 @@ public interface ConcordClientInterface extends Remote{
 	public void verify(String userName, String pw) throws RemoteException;
 	public User findUserById(int id) throws RemoteException;
 	public void invite(User user, Server s) throws RemoteException;
-	public void accept(User member, Server s) throws RemoteException;
+	public void accept(Server s) throws RemoteException;
 	public void kick(User user, Server s) throws RemoteException;
 	public void changeServerName(Server s, String serverName) throws RemoteException;
 	public void changeChannelName(Channel c, Server s, String channelName) throws RemoteException;
@@ -39,4 +39,5 @@ public interface ConcordClientInterface extends Remote{
 	public void notifyDcMsg() throws RemoteException;
 	public void notifyServers() throws RemoteException;
 	public void notifyServer() throws RemoteException;
+	public void notifyPins() throws RemoteException;
 }

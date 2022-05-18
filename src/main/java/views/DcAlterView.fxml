@@ -46,19 +46,20 @@
          <children>
             <HBox prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <Label text="Other username" />
+                  <Label fx:id="dcLabelName" text="Other username" />
                </children>
             </HBox>
             <ScrollPane hbarPolicy="NEVER" prefHeight="663.0" prefWidth="1030.0">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="1026.0">
                      <children>
-                        <ListView fx:id="dcMessageListView" prefHeight="636.0" prefWidth="1025.0" />
-                        <TextField fx:id="dcMessageTextField" layoutX="-7.0" layoutY="632.0" onAction="#onEnterPressed" prefHeight="30.0" prefWidth="1033.0" promptText="Write Message Here...">
+                        <ListView id="dcMsgList" fx:id="dcMessageListView" prefHeight="636.0" prefWidth="1025.0" />
+                        <TextField id="msgTxtFld" fx:id="dcMessageTextField" layoutX="-7.0" layoutY="632.0" onAction="#onEnterPressed" prefHeight="30.0" prefWidth="955.0" promptText="Write Message Here...">
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
                         </TextField>
+                        <Button id="sendButt" layoutX="948.0" layoutY="634.0" mnemonicParsing="false" onAction="#sendMsg" text="Send" />
                      </children>
                   </AnchorPane>
               </content>

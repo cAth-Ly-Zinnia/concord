@@ -104,7 +104,7 @@ public class DirectConversation implements Serializable{
 		String name = "";
 		for (User u:users){
 			String user = u.getUserName();
-			name = name + " " + user;
+			name = name + user + " ";
 		}
 		return name;
 	}
