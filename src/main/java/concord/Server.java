@@ -27,6 +27,7 @@ public class Server implements Serializable{
 			general.setName("general");
 			channels.add(general);
 			Level l = new Level();
+			l.LevelMax();
 			levels.put(u, l);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -125,10 +126,6 @@ public class Server implements Serializable{
 			}
 		}
 		return null;
-	}
-	
-	public ArrayList<Message> getPin(){
-		return pins;
 	}
 	
 	//for now everyone can change the name TODO change permissions

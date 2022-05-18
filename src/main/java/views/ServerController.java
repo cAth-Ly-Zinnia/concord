@@ -55,9 +55,26 @@ public class ServerController
 		concordModel = m;
 		userNameLabel.setText(client.getU().getUserName());
 		channelListView.setItems(concordModel.getChannels());
+		channelListView.getSelectionModel().selectedItemProperty()
+		.addListener((e)->{onSelectedItem();});
 		messageListView.setItems(concordModel.getSerMessages());
 		usersListView.setItems(concordModel.getUsers());
 		server = s;
+	}
+
+	private void onSelectedItem() {
+		c = channelListView.getSelectionModel().getSelectedItem();
+    	if(c != null) {
+	    	System.out.println(c.getName());
+	    	try {
+	    		concordModel.getSerMessages().clear();
+	    		concordModel.setSerMessages(c.getMessages());
+	    		messageListView.setItems(concordModel.getSerMessages());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	}
+		
 	}
 
 	@FXML
@@ -104,13 +121,14 @@ public class ServerController
     @FXML
     void channelListViewClicked(MouseEvent event) 
     {
+    	/*
     	concordModel.getSerMessages().clear();
     	c = channelListView.getSelectionModel().getSelectedItem();
     	if (c != null) {
     		concordModel.setSerMessages(c.getMessages());
     		messageListView.setItems(concordModel.getSerMessages());
     	}
-    	System.out.println("grabs: " + c);
+    	*/
     }
     
     @FXML
@@ -120,7 +138,22 @@ public class ServerController
 
     @FXML
     void pinMsg(ActionEvent event) {
-
+    	String content = messageTextField.getText();
+    	Message msg = new Message();
+    	msg.setContent(content);
+    	if(content != "") {
+    		System.out.println("sends: " + content);
+    		try {
+    			client.addPin(server, msg);
+    			client.sendChannelMessage(msg, server, c);
+				model.showContent();
+				
+				
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+    	}
+    	messageTextField.setText("");
     }
     
     @FXML
@@ -145,5 +178,10 @@ public class ServerController
 			}
     	}
     	messageTextField.setText("");
+    }
+    
+    @FXML
+    void sendMsg(ActionEvent event) {
+    	sendMessage(event);
     }
 }

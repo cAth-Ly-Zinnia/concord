@@ -120,6 +120,16 @@ public class ViewTransitionModel implements ViewTransitionModelInterface
 			concordModel.getUsers().add(u);
 		}
 		
+		concordModel.getPinMessages().clear();
+		
+		ArrayList<Message> pinList;
+		pinList = s.getPins();
+		System.out.println(pinList);
+		for (Message m: pinList)
+		{
+			concordModel.getPinMessages().add(m);
+		}
+		
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(ViewTransitionModel.class
 				.getResource("../views/ServerAlterView.fxml"));

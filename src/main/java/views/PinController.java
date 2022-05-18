@@ -24,7 +24,7 @@ public class PinController {
 		client = c;
 		concordModel = model;
 		server = s1;
-		
+		System.out.println(server.getPins());
 		pinListView.setItems(concordModel.getPinMessages());
 	}
 

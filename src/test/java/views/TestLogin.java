@@ -135,6 +135,18 @@ public class TestLogin
 		});
 		
 	}
+	
+	private void selectChannel(FxRobot robot, int index)
+	{
+		Platform.runLater(()->{
+			@SuppressWarnings("unchecked")
+			ListView<Channel> chanList = (ListView<Channel>) robot.lookup("#chanList")
+                    .queryAll().iterator().next();
+			chanList.scrollTo(index);
+			chanList.getSelectionModel().clearAndSelect(index);
+		});
+		
+	}
 
 	@Test
 	public void testLogin(FxRobot robot) throws RemoteException
@@ -197,6 +209,7 @@ public class TestLogin
 		
 		robot.clickOn("#homeButton");
 		
+		selectServer(robot, 3);
 		try
 		{
 			Thread.sleep(500);
@@ -204,6 +217,52 @@ public class TestLogin
 		{
 			e.printStackTrace();
 		}
+			
+		selectChannel(robot, 1);
+		
+		robot.clickOn("#channelTxtField");
+		robot.write("hello");
+		robot.clickOn("#sendChanMsg");
+		
+		selectServer(robot, 3);
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+			
+		selectChannel(robot, 1);
+		
+		try
+		{
+			Thread.sleep(1500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		
+		robot.clickOn("#channelTxtField");
+		robot.write("pinned");
+		robot.clickOn("#pinButt");
+		
+		selectServer(robot, 3);
+		try
+		{
+			Thread.sleep(500);
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+			
+		selectChannel(robot, 1);
+		
+		robot.clickOn("#pinScreen");
+		testPin(1, "joe");
+		robot.clickOn("#backBtn");
+		
+		testChannels(user_1, 2, "joe");
 		
 		selectServer(robot, 3);
 		try
@@ -250,6 +309,24 @@ public class TestLogin
 		robot.clickOn("#buttonLogout");
 	}
 	
+	private void testPin(int amt, String server) {
+		assertEquals(amt, model.getPinMessages().size());
+		Server test = null;
+		for(Server s : cs.getC().getSm().getServers()) {
+			System.out.println(s.getName());
+			if (s.getName().equals(server)){
+				test = s;
+			}
+ 		}
+		for (Message m : test.getPins()) {
+			boolean exist = false;
+			for (Message curM: model.getPinMessages())
+				if (curM.getContent().equals(m.getContent())) exist = true;
+			assertTrue(exist);
+		}
+		
+	}
+
 	void testServer(User user, int amt) throws RemoteException
 	{
 		assertEquals(amt, model.getServers().size());
@@ -283,6 +360,7 @@ public class TestLogin
 			for (Channel c1: model.getChannels())
 			{
 				//System.out.println(l.getText());
+				testChannelMessage(user, test, c1);
 				if (c1.getName().equals(c.getName())) exist = true;
 			}
 			assertTrue(exist);
@@ -312,6 +390,18 @@ public class TestLogin
 					if (curM.getContent().equals(m.getContent())) exist = true;
 				assertTrue(exist);
 			}
+		}
+	}
+	
+	void testChannelMessage(User user, Server s, Channel c)
+	{
+		for (Message m: cs.getConcord().getSm().
+				getServer(s.getName()).getChannel(c.getName()).getMessages())
+		{
+			boolean exist = false;
+			for (Message curM: model.getSerMessages())
+				if (curM.getContent().equals(m.getContent())) exist = true;
+			assertTrue(exist);
 		}
 	}
 }

@@ -15,7 +15,7 @@ public interface ConcordServerInterface extends Remote{
 	
 	//notifies the user, focused on messages
 	
-	public void addPin(Server S, Message message) throws RemoteException;
+	public void addPin(int id, Server s, Message message) throws RemoteException;
 	
 	public void unPin(Server S, Message message) throws RemoteException;
 	

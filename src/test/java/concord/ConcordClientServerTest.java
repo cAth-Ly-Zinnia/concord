@@ -295,10 +295,10 @@ class ConcordClientServerTest {
 			
 			m = new Message();
 			m.setMessage("This is a message");
-			assertEquals(0, joe.getPin().size());
+			assertEquals(0, joe.getPins().size());
 			
-			csi.addPin(joe, m);
-			assertEquals(1, joe.getPin().size());
+			csi.addPin(1, joe, m);
+			assertEquals(1, joe.getPins().size());
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");
@@ -317,16 +317,16 @@ class ConcordClientServerTest {
 			u = csi.findUserById(1);
 			joe = csi.getConcord().getSm().getServer("joe");
 			
-			csi.unPin(joe, joe.getPin().get(0));
-			assertEquals(0, joe.getPin().size());
+			csi.unPin(joe, joe.getPins().get(0));
+			assertEquals(0, joe.getPins().size());
 			
 			m = new Message();
 			m.setMessage("This is a message");
 			cc.addPin(joe, m);
-			assertEquals(1, joe.getPin().size());
+			assertEquals(1, joe.getPins().size());
 			
-			cc.unPin(joe, joe.getPin().get(0));
-			assertEquals(0, joe.getPin().size());
+			cc.unPin(joe, joe.getPins().get(0));
+			assertEquals(0, joe.getPins().size());
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("threw exceptions");

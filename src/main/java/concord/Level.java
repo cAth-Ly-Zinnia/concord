@@ -17,6 +17,12 @@ public class Level implements Serializable{
 		lvlProgress = x.getProgress();
 		lvl = x.getLevelStatus();
 	}
+	
+	public void LevelMax() {
+		x = new LvlThree();
+		lvlProgress = 0;
+		lvl = 3;
+	}
 
 	/**
 	 * @return the x

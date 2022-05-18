@@ -9,8 +9,8 @@
    <center>
       <VBox prefHeight="200.0" prefWidth="295.0" BorderPane.alignment="CENTER">
          <children>
-            <ListView fx:id="pinListView" prefHeight="183.0" prefWidth="100.0" />
-            <Button mnemonicParsing="false" onAction="#returnToChannel" text="Return" />
+            <ListView id="pinList" fx:id="pinListView" prefHeight="183.0" prefWidth="100.0" />
+            <Button id="backBtn" mnemonicParsing="false" onAction="#returnToChannel" text="Return" />
          </children>
       </VBox>
    </center>

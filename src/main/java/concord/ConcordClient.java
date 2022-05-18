@@ -188,7 +188,7 @@ public class ConcordClient extends UnicastRemoteObject
 	
 	public void addPin(Server s, Message message) {
 		try {
-			csi.addPin(s, message);
+			csi.addPin(uid, s, message);
 			 
 		} catch (RemoteException e) {
 			e.printStackTrace();

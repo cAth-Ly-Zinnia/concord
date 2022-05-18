@@ -119,8 +119,10 @@ public class ConcordModel
 		}
 	}
 
-	public void setPinMessages(ObservableList<Message> pinMessages) {
-		this.pinMessages = pinMessages;
+	public void setPinMessages(ArrayList<Message> pm) {
+		for (Message m : pm) {
+			pinMessages.add(m);
+		}
 	}
 	
 	public void setUsers(ObservableList<User> users) {

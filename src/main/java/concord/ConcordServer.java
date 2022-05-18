@@ -206,17 +206,27 @@ implements ConcordServerInterface{
 	public void sendChannelMessage(Message m, int id, Server s, Channel channel) throws RemoteException {
 		// getChannel and then sendMessage
 		Server s1 = c.getSm().getServer(s.getName());
+		System.out.println(channel);
 		Channel c1 = s1.getChannel(channel.getName());
 		u1 = s1.findEquivalentUser(id);
 		m.setUser(u1);
 		Level l = s1.findLevel(u1);
 		c1.sendMessage(m, l);
+		System.out.println(l.getLvl());
 		this.makeChange();
 	}
 
 	@Override
-	public void addPin(Server s, Message message) throws RemoteException {
-		s.addPin(message);
+	public void addPin(int id, Server s, Message message) throws RemoteException {
+		Server s1 = c.getSm().getServer(s.getName());
+		u1 = s1.findEquivalentUser(id);
+		if (s1.findLevel(u1).getLvl() == 3) {
+			s1.addPin(message);
+			System.out.println("Level 3");
+		}
+		else {
+			System.out.println("Not Level 3");
+		}
 		this.makeChange();
 	}
 
