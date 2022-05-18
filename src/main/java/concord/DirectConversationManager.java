@@ -55,6 +55,14 @@ public class DirectConversationManager implements Serializable{
 	public void setDcs(ArrayList<DirectConversation> dcs) {
 		this.dcs = dcs;
 	}
+	public DirectConversation findDc(String dc) {
+		for (DirectConversation d : dcs) {
+			if (dc.equals(d.getName())){
+				return d;
+			}
+		}
+		return null;
+	}
 	
 	public boolean contains(DirectConversation dc) {
 		for (DirectConversation d: dcs) {

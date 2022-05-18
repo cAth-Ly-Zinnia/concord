@@ -51,6 +51,33 @@ implements ConcordServerInterface{
 		}
 	}
 	
+	public void notifyChannels() throws RemoteException {
+		for (ConcordClientInterface c : clients) {
+			c.notifyChannels();
+		}
+	}
+	public void notifyChannelMsg() throws RemoteException {
+		for (ConcordClientInterface c : clients) {
+			c.notifyChannelMsg();
+		}
+	}
+	public void notifyDcMsg() throws RemoteException {
+		for (ConcordClientInterface c : clients) {
+			c.notifyDcMsg();
+		}
+	}
+	public void notifyServers() throws RemoteException {
+		for (ConcordClientInterface c : clients) {
+			c.notifyServers();
+		}
+	}
+	private void notifyServer() throws RemoteException {
+		for (ConcordClientInterface c : clients) {
+			c.notifyServer();
+		}
+		
+	}
+	
 	public void makeChange() throws RemoteException {
 		notifyClients();
 	}
@@ -93,7 +120,7 @@ implements ConcordServerInterface{
 	public void accept(User member, Server s) throws RemoteException {
 		// TODO Auto-generated method stub
 		s.addMember(member);
-		this.makeChange();
+		this.notifyServer();
 	}
 
 	@Override
@@ -116,11 +143,11 @@ implements ConcordServerInterface{
 		u1 = c.getUm().getUser(id);
 		Channel channel = s.getChannel(chan.getName());
 		channel.setName(channelName);
-		this.makeChange();
+		this.notifyChannels();
 	}
 
 	@Override
-	public void addChannel(int id, Server s, String name) throws RemoteException {
+	public Channel addChannel(int id, Server s, String name) throws RemoteException {
 		Server server = null;
 		u1 = s.findEquivalentUser(id);
 		Role r = s.getRole(u1);
@@ -133,7 +160,8 @@ implements ConcordServerInterface{
 		}
 		System.out.println(server);
 		server.addChannel(r, channel);
-		this.makeChange();
+		this.notifyChannels();
+		return channel;
 	}
 	
 
@@ -143,7 +171,7 @@ implements ConcordServerInterface{
 		Role r = s.getRole(u1);
 		Server s1 = c.getSm().getServer(s.getName());
 		s1.deleteChannel(r, channel);
-		this.makeChange();
+		this.notifyChannels();
 	}
 
 	@Override
@@ -198,8 +226,9 @@ implements ConcordServerInterface{
 	public void sendPrivateMessage(Message m, DirectConversation dc) throws RemoteException {
 		// TODO Auto-generated method stub
 		System.out.println(dc);
-		dc.sendMessage(m);
-		this.makeChange();	
+		DirectConversation dc1 = c.getDcm().findDc(dc.getName());
+		dc1.sendMessage(m);
+		this.notifyDcMsg();	
 	}
 
 	@Override
@@ -213,7 +242,7 @@ implements ConcordServerInterface{
 		Level l = s1.findLevel(u1);
 		c1.sendMessage(m, l);
 		System.out.println(l.getLvl());
-		this.makeChange();
+		this.notifyChannelMsg();
 	}
 
 	@Override
@@ -282,21 +311,43 @@ implements ConcordServerInterface{
 	}
 
 	@Override
-	public void addServer(int id, String name) throws RemoteException {
+	public Server addServer(int id, String name) throws RemoteException {
 		u1 = c.getUm().getUser(id);
+		Server s = null;
 		try {
-			c.getSm().createServer(name, u1);
+			s = c.getSm().createServer(name, u1);
 			this.makeChange();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		return s;
 	}
 	
 	@Override
 	public void deleteServer(int id, Server s) throws RemoteException {
 		u1 = c.getUm().getUser(id);
 		c.getSm().deleteServer(s, u1);
+	}
+
+	@Override
+	public ArrayList<User> getUsers() throws RemoteException {
+		return c.getUm().getUsers();
+	}
+
+	@Override
+	public void addDc(int uid, User userTarget) throws RemoteException {
+		u1 = c.getUm().getUser(uid);
+		User u2 = c.getUm().getUser(userTarget.getId());
+		
+		ArrayList<User> users = new ArrayList<User>();
+		users.add(u1);
+		users.add(u2);
+		c.getDcm().createDC(users);
+	}
+
+	@Override
+	public Channel getServerChannel(Server server, Channel channel) throws RemoteException{
+		return c.getSm().getServer(server.getName()).getChannel(channel.getName());
 	}
 
 }

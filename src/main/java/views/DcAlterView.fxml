@@ -53,6 +53,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="660.0" prefWidth="1026.0">
                      <children>
+                        <ListView fx:id="dcMessageListView" prefHeight="636.0" prefWidth="1025.0" />
                         <TextField fx:id="dcMessageTextField" layoutX="-7.0" layoutY="632.0" onAction="#onEnterPressed" prefHeight="30.0" prefWidth="1033.0" promptText="Write Message Here...">
                            <opaqueInsets>
                               <Insets />

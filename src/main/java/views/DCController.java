@@ -1,8 +1,10 @@
 package views;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 import concord.ConcordClient;
+import concord.ConcordServer;
 import concord.DirectConversation;
 import concord.Message;
 import javafx.event.ActionEvent;
@@ -22,6 +24,7 @@ import models.ViewTransitionModel;
 public class DCController
 {
 	ConcordModel concordModel;
+	ConcordServer cs;
 	ConcordClient client;
 	ViewTransitionModel model;
 	Stage stage;
@@ -48,6 +51,8 @@ public class DCController
 		
 		concordModel.setDcs(c.getDcById());
 		dcListView.setItems(concordModel.getDcs());
+		dcListView.getSelectionModel().selectedItemProperty()
+		.addListener((e)->{onSelectedItem();});
 		userNameTextField.setText(client.getU().getUserName());
 	}
 	
@@ -56,11 +61,23 @@ public class DCController
 		return userNameTextField;
 	}
 	
-	//TODO when i have time
+	private void onSelectedItem() {
+		dc = dcListView.getSelectionModel().getSelectedItem();
+    	if(dc != null) {
+	    	System.out.println(dc.getName());
+	    	try {
+	    		concordModel.getDcsMessages().clear();
+	    		concordModel.setDcsMessages(dc.getMessages());
+    			dcMessageListView.setItems(concordModel.getDcsMessages());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+    	}
+		
+	}
 	
 	@FXML
-	void addDC(ActionEvent event) {
-		/*
+	void addDC(ActionEvent event) throws Exception {
 		stage = new Stage();
     	stage.initModality(Modality.APPLICATION_MODAL);
     	
@@ -74,7 +91,6 @@ public class DCController
 		Scene s = new Scene(view);
 		stage.setScene(s);
 		stage.show();
-		*/
 	}
 	
     @FXML
@@ -86,11 +102,6 @@ public class DCController
     @FXML
     void onDcListViewClicked(MouseEvent event) 
     {
-    	dc = dcListView.getSelectionModel().getSelectedItem();
-    	if (dc != null) {
-    		concordModel.setDcsMessages(dc.getMessages());
-    		dcMessageListView.setItems(concordModel.getDcsMessages());
-    	}
    
     }
     

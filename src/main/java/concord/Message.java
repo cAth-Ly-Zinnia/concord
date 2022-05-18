@@ -72,7 +72,8 @@ public class Message implements Serializable{
 
 	@Override
 	public String toString() {
-		return content;
+		String send = user + ": " + content;
+		return send;
 	}
 	
 }

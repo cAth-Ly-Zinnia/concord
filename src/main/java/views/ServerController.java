@@ -170,7 +170,7 @@ public class ServerController
     		System.out.println("sends: " + content);
     		try {
 				client.sendChannelMessage(msg, server, c);
-				model.showContent();
+				//model.showContent();
 				
 				
 			} catch (RemoteException e) {

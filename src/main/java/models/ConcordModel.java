@@ -42,15 +42,24 @@ public class ConcordModel
 	}
 	
 	public void resetChannelMessage(Concord c, Server s, Channel c1) {
-		
+		serMessages.clear();
+		for(Message m: c.getSm().getServer(s.getName()).getChannel(c1.getName()).getMessages()) {
+			serMessages.add(m);
+		}
 	}
 	
 	public void resetChannels(Concord c, Server s) {
-			
+		channels.clear();
+		for(Channel c1: c.getSm().getServer(s.getName()).getChannels()) {
+			channels.add(c1);
+		}
 	}
 	
 	public void resetDcsMessage(Concord c, DirectConversation dc) {
-		
+		dcsMessages.clear();
+		for (Message m: dc.getMessages()) {
+			dcsMessages.add(m);
+		}
 	}
 	
 	/**
@@ -90,12 +99,18 @@ public class ConcordModel
 	}
 	
 
-	public void setServers(ObservableList<Server> servers) {
-		this.servers = servers;
+	public void setServers(ArrayList<Server> arrayList) {
+		arrayList.clear();
+		for (Server s: arrayList) {
+			arrayList.add(s);
+		}
 	}
 
-	public void setChannels(ObservableList<Channel> channels) {
-		this.channels = channels;
+	public void setChannels(ArrayList<Channel> arrayList) {
+		channels.clear();
+		for (Channel c : arrayList) {
+			channels.add(c);
+		}
 	}
 
 	public void setDcs(ArrayList<DirectConversation> arrayList) {

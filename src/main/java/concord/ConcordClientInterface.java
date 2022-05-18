@@ -28,6 +28,7 @@ public interface ConcordClientInterface extends Remote{
 	public void sendChannelMessage(Message m, Server s, Channel c) throws RemoteException;
 	public ArrayList<DirectConversation> getDcById() throws RemoteException;
 	public ArrayList<Server> getServerByUserId() throws RemoteException;
+	public ArrayList<User> getUsers() throws RemoteException;
 	
 	public void addServer(String name) throws RemoteException;
 	public void deleteServer(Server s) throws RemoteException;
@@ -36,4 +37,6 @@ public interface ConcordClientInterface extends Remote{
 	public void notifyChannels() throws RemoteException;
 	public void notifyChannelMsg() throws RemoteException;
 	public void notifyDcMsg() throws RemoteException;
+	public void notifyServers() throws RemoteException;
+	public void notifyServer() throws RemoteException;
 }

@@ -5,8 +5,12 @@ import java.rmi.RemoteException;
 import concord.ConcordClient;
 import concord.DirectConversation;
 import concord.Server;
+import concord.User;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import models.ConcordModel;
@@ -16,19 +20,42 @@ public class NewDcController {
 	Stage stage;
 	ConcordModel model;
 	DirectConversation dc;
+	User userTarget;
 	
-	// here want to use the dcDropList
+	
 	@FXML
-	private TextField channelTxtField;
+    private MenuButton userMenu;
 	
-	public void setModel(Stage s, ConcordClient c, DirectConversation dc1) {
+	public void setModel(Stage s, ConcordClient c) {
 		stage = s;
 		client = c;
-		dc = dc1;
+	
+		MenuItem item = new MenuItem("Find User");
+		
+		userMenu.getItems().clear();
+		
+		try {
+			for(User u : client.getUsers()) {
+				item = new MenuItem(u.getUserName());
+				item.setId(u.getUserName());
+				item.setOnAction(new EventHandler<ActionEvent>() {
+				    @Override 
+				    public void handle(ActionEvent e) 
+				    {
+				    	userTarget = u;
+				    	userMenu.setText(userTarget.getUserName());
+				    }
+				});
+				userMenu.getItems().add(item);
+			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void confirm() throws RemoteException {
-		// action finds the user and creates a dc with them
+		client.addDc(userTarget);
     	stage.close();
 	}
     @FXML

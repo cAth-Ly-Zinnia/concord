@@ -23,6 +23,10 @@ public class ConcordClient extends UnicastRemoteObject
 	private ConcordServerInterface csi;
 	private ConcordModel model;
 	
+	private Server server;
+	private Channel channel;
+	private DirectConversation directConversation;
+	
 	public ConcordClient() throws RemoteException{
 		this(new ConcordModel());
 	}
@@ -60,20 +64,46 @@ public class ConcordClient extends UnicastRemoteObject
 		Platform.runLater(()->{
 			try {
 				//grab server and channel
-				model.reset(csi.getConcord());
+				model.setChannels(csi.getConcord().getSm().getServer(server.getName()).getChannels());
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
 		});
 	}
-
+	
+	@Override
+	public void notifyServers() throws RemoteException {
+		System.out.println("There have been changes.");
+		Platform.runLater(()->{
+			try {
+				//grab server and channel
+				model.setServers(csi.getConcord().getSm().getServers());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+	
+	@Override
+	public void notifyServer() throws RemoteException{
+		System.out.println("There have been changes.");
+		Platform.runLater(()->{
+			try {
+				//grab server and channel
+				model.setChannels(csi.getConcord().getSm().getServer(server.getName()).getChannels());
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		});
+	}
+	
 	@Override
 	public void notifyChannelMsg() throws RemoteException {
 		System.out.println("There have been changes.");
 		Platform.runLater(()->{
 			try {
 				//grab server and channel and msgs
-				model.reset(csi.getConcord());
+				model.setSerMessages(csi.getServerChannel(server, channel).getMessages());
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -86,7 +116,8 @@ public class ConcordClient extends UnicastRemoteObject
 		Platform.runLater(()->{
 			try {
 				//grab user and their msgs
-				model.reset(csi.getConcord());
+				model.setDcsMessages(csi.getConcord().getDcm()
+						.findDc(directConversation.getName()).getMessages());
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			}
@@ -134,6 +165,7 @@ public class ConcordClient extends UnicastRemoteObject
 	
 	public void accept(User member, Server s) {
 		try {
+			server = s;
 			csi.accept(member, s);
 			 
 		} catch (RemoteException e) {
@@ -143,6 +175,7 @@ public class ConcordClient extends UnicastRemoteObject
 	
 	public void kick(User user, Server s) {
 		try {
+			server = s;
 			csi.kick(uid, user, s);
 			 
 		} catch (RemoteException e) {
@@ -152,6 +185,7 @@ public class ConcordClient extends UnicastRemoteObject
 	
 	public void changeServerName(Server ser, String serverName) {
 		try {
+			server = ser;
 			csi.changeServerName(uid, ser, serverName);
 			 
 		} catch (RemoteException e) {
@@ -161,6 +195,8 @@ public class ConcordClient extends UnicastRemoteObject
 	
 	public void changeChannelName(Channel c, Server s, String channelName) {
 		try {
+			server = s;
+			channel = c;
 			csi.changeChannelName(uid, c, s, channelName);
 			 
 		} catch (RemoteException e) {
@@ -170,7 +206,8 @@ public class ConcordClient extends UnicastRemoteObject
 	
 	public void addChannel(Server s, String name) {
 		try {
-			csi.addChannel(uid, s, name);
+			server = s;
+			channel = csi.addChannel(uid, s, name);
 			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -188,6 +225,7 @@ public class ConcordClient extends UnicastRemoteObject
 	
 	public void addPin(Server s, Message message) {
 		try {
+			server = s;
 			csi.addPin(uid, s, message);
 			 
 		} catch (RemoteException e) {
@@ -261,7 +299,7 @@ public class ConcordClient extends UnicastRemoteObject
 	@Override
 	public void addServer(String name) throws RemoteException {
 		try {
-			csi.addServer(uid, name);
+			server = csi.addServer(uid, name);
 			 
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -280,6 +318,7 @@ public class ConcordClient extends UnicastRemoteObject
 	
 	public void sendDCMessage(Message m, DirectConversation dc) throws RemoteException{
 		try {
+			directConversation = dc;
 			csi.sendPrivateMessage(m, dc);
 			 
 		} catch (RemoteException e) {
@@ -289,6 +328,8 @@ public class ConcordClient extends UnicastRemoteObject
 	
 	public void sendChannelMessage(Message m, Server s, Channel c) throws RemoteException{
 		try {
+			server = s;
+			channel = c;
 			csi.sendChannelMessage(m, uid, s, c);
 			 
 		} catch (RemoteException e) {
@@ -310,6 +351,10 @@ public class ConcordClient extends UnicastRemoteObject
 	 */
 	public ConcordServer getCs() {
 		return cs;
+	}
+	
+	public ArrayList<User> getUsers() throws RemoteException{
+		return csi.getUsers();
 	}
 
 	/**
@@ -345,5 +390,38 @@ public class ConcordClient extends UnicastRemoteObject
 	 */
 	public void setCsi(ConcordServerInterface csi) {
 		this.csi = csi;
+	}
+	
+	/**
+	 * @return the server
+	 */
+	public Server getServer() {
+		return server;
+	}
+
+	/**
+	 * @param server the server to set
+	 */
+	public void setServer(Server server) {
+		this.server = server;
+	}
+
+	/**
+	 * @return the channel
+	 */
+	public Channel getChannel() {
+		return channel;
+	}
+
+	/**
+	 * @param channel the channel to set
+	 */
+	public void setChannel(Channel channel) {
+		this.channel = channel;
+	}
+
+	public void addDc(User userTarget) throws RemoteException {
+		csi.addDc(uid, userTarget);
+		
 	}
 }
