@@ -1,4 +1,4 @@
-# concord
+# Concord Application
 A Mock Discord application focusing on Software Design for my CSC 360 Software Design taught by Professor Bradshaw at Centre College.
 ## Introduction
 
